@@ -1,0 +1,24 @@
+{% extends "skeleton.html" %}
+{% block title %}Search{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block main %}
+<div id="main">
+  <div id="search">
+      <form method="post" action="/submit" id="form">
+            <div>
+                <input type="text" name="entity" align="left" class="search-bar" placeholder="Search Entities"/>
+            </div>
+            <div>
+                <br>
+                <button type="submit">Search</button>
+            </div>
+      </form>
+  </div>
+
+  <div id="results">
+  </div>
+</div>
+{% endblock %}

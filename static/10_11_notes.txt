@@ -1,0 +1,22 @@
+have a good story for innovation area leads...include field outside of MITRE (e.g. academia, industry, ...)
+Where are the gaps? Which gaps are we addressing?
+
+TRADESPACE
+
+Tom and Sara - MBE state of practice
+Judith - SoS
+
+Janna - software solutions - initial idea
+
+Nielson paper (important for everybody to read)... read at least 3rd-5th section?
+
+
+MATT:
+-- CD MAST
+-- using git
+
+Functional decomposition vs. Kill chain?
+
+Core model IS = abstract representation of an air force kill chain. The classes include STEPS of the kill chain
+as well as physical weapons, sensors, etc.
+
