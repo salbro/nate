@@ -1,0 +1,14 @@
+<table id="voting_table">
+  {% set n_questions = 4 %}
+  <tr>
+    {% for topic in topics %}
+      <th>{{topic}}</th>
+    {% endfor %}
+  </tr>
+  {% for i in range(n_questions) %}
+  <tr>
+    {% for topic in topic_dict.keys() %}
+        <td> {{topic_dict[topic][i]}}</td>
+    {% endfor %}
+  </tr>
+</table>

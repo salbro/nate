@@ -1,19 +1,18 @@
 from flask import Flask, url_for, request, render_template
 from app import app
-from nlp import *
-
-rr = RequirementReader()
-with open("./data/java_text.txt", "r") as fp:
-    text = fp.read()
-rr.train(text)
+import data
+import operator
 
 @app.route('/')
 def hello():
     # url = url_for('about')
     # form_url = url_for('form')
     # return '<a href="' + url + '">About us!</a><br></br><a href="' + form_url + '">search for entities</a>'
-    return render_template("search.html")
-
+    new_topic_dict = {}
+    for (topic, questions) in data.topic_dict.iteritems():
+        questions.sort(key=operator.itemgetter(1))
+        new_topic_dict[topic] = questions[::-1]
+    return render_template("index.html", topic_dict=new_topic_dict, topics = data.topics)
 
 @app.route('/about')
 def about():

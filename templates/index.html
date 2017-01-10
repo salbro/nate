@@ -1,0 +1,34 @@
+{% extends "skeleton.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block main %}
+
+<table id="voting_table">
+  {% set n_questions = 2 %}
+  <tr>
+    {% for topic in topics %}
+      <th>{{topic}}</th>
+    {% endfor %}
+  </tr>
+  {% for i in range(n_questions) %}
+  <tr>
+    {% for topic in topic_dict.keys() %}
+        <td> {{topic_dict[topic][i]}}</td>
+    {% endfor %}
+  {% endfor %}
+  </tr>
+</table>
+
+<br><br><br>
+
+<div>
+<button>
+hello
+</input>
+
+</div>
+
+{% endblock %}
