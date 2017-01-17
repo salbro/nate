@@ -2,22 +2,22 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
 <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
 <head>
+  <!--
+  <script src="https://use.fontawesome.com/ed666d4d6a.js"></script>
+  -->
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="../static/styles.css"/>
+  <link rel="stylesheet" href= {{ url_for('static', filename='css/styles.css') }}/>
+  <link rel="stylesheet" href= {{ url_for('static', filename='css/font-awesome.css') }}/>
   <title>{% block title %}{% endblock %}</title>
 </head>
 
-<header>
-  <nav class="nav" id="nav">
-    <div id="LogicHero">Logic Hero</div>
-  </nav>
-</header>
+<header></header>
 
 <body>
-    <div id="main">{% block main %}{% endblock %}</div>
-
+  <div id="main">{%block main%}{%endblock%}</div>
+  <div id="topics">{% block topics %}{% endblock %}</div>
 </body>
 
 </html>
