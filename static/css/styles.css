@@ -1,51 +1,30 @@
 /* styles.css */
-* {
-  margin: 0;
-}
-
-
-header{
-  /*
-  height: 3em;
+section{
+  position: relative;
   width: 100%;
-  padding: 0px 0px 0px 0px;
-  margin-top: 0px;
-  background-color: #0066cc;
-  margin: 0px 0px 0px 0px;
-  */
 }
-
-#MITRE{
-  /*padding-top: 5px;
-  padding-left: 5px;
-  color: white;
-  font-size: 2em;*/
-}
-
 body{
   background-color: white;
+  margin: 0;
+  border: 0;
 }
 
-#results{
-  padding-top: 5px;
+section #top_logos{
+  height: 20em;
+  position: relative;
 }
 
-#main{
-  margin: 3%;
-  margin-bottom: 0;
-  margin-top: 2%;
-  padding: 5px;
+#logo_top{
+  display: block;
+  margin: 0 auto;
+  padding: 35px;
 }
 
-ul, li{
-  list-style: none;
-}
-
-input{
-  height: 40px;
-  width: 400px;
-}
-
-#form{
-  width: 75%;
+#logic_hero_icon{
+  position: absolute;
+  left: 80%;
+  margin: 0;               /* 2 */
+  top: 50%;                         /* 3 */
+  transform: translate(0, -50%);
+  width: 10em; height: auto;
 }

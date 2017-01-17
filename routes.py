@@ -14,8 +14,8 @@ def hello():
         topics_dictionary = json.load(fp)
 
     sorted_by_votes = {}
-    for (category, category_dict) in topics_dictionary.iteritems():
-        questions = list(category_dict.iteritems())
+    for (category, category_dict) in topics_dictionary.items():
+        questions = list(category_dict.items())
         questions.sort(key=lambda elem: elem[1][1])
         sorted_by_votes[category] = questions[::-1]
 
