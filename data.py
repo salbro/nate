@@ -3,7 +3,7 @@ topics = ['Politics', 'Sports', 'Morality', 'Entertainment']
 
 '''
 topic_dict = {'Politics':
-[('Should you vote for a third party', 27),
+[('Should you vote for a third party?', 27),
 ('Should drugs be decriminalized?', 25),
 ('Should we consider religious arguments in politics?', 14),
 ('Should we raise the minimum wage to $15', 9)], 'Sports':

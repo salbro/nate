@@ -9,6 +9,10 @@ body{
   border: 0;
 }
 
+td{
+  word-wrap: break-word;
+}
+
 section #top_logos{
   height: 20em;
   position: relative;
@@ -53,7 +57,7 @@ section #logic_hero_table{
 
 #logic_hero_table td{
   display: inline-block;
-  width: 48%; height: 100%;
+  width: 49%; height: 100%;
 }
 
 
@@ -76,7 +80,7 @@ section #logic_hero_table{
 
 #logic_hero_description div {
   display: inline-block;
-  margin: 3% 0 3% 0;
+  margin: 2% 0 4% 0;
 }
 
 #logic_hero_description ul{
@@ -100,4 +104,41 @@ section #logic_hero_table{
     display: block;
     margin: 0 auto;
     height:  100%; width: 100%;
+}
+
+#voting_table{
+  width: 96%; height: 96%;
+  margin: 2%;
+  table-layout: fixed;
+}
+
+td #inner_topic_table_container{
+  width: 24%;
+}
+
+
+
+.inner_topic_table{
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 100%; height: 100%;
+}
+
+td #question{
+  top: 0%;
+  left: 0%;
+  width: 90%;
+  padding-left: 3%; padding-right: 3%;
+
+}
+td #vote_cell{
+  display: inline-block;
+  align-items: center;
+  /*top: 0%;
+  /*right: 10%;*/
+   width: 90%; height: 100%;
+}
+
+#vote_cell form button{
+  width: 100%;
 }

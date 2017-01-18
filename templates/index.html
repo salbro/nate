@@ -47,46 +47,7 @@
   </table>
 </section>
 
-  <section id="topic_section">
-  <table id="voting_table">
-    {% set n_questions = 2 %}
-    <tr>
-      {% for topic in topics %}
-        <th>{{topic}}</th>
-      {% endfor %}
-    <!-- questions -->
-    </tr>
-    {% for i in range(n_questions) %}
-    <tr>
-      {% for topic in topics %}
-          <td>
-            <table class="inner_topic_table">
-              <td>
-                {% set (id,(question, votecount)) = topic_dict[topic][i] %}
-                {{question}}
-              </td>
-              <td id="vote_cell">
-                <form method="post" action="/vote/" id="upvote">
-                  <input type="hidden" name="question_id" value="{{id}}">
-                  <input type="hidden" name="direction" value="up">
-                  <button type="submit" class="fa fa-chevron-up"></button>
-                </form>
-                <span style="color:blue;"> {{votecount}} </span>
-                <form method="post" action="/vote/" id="downvote">
-                  <input type="hidden" name="question_id" value="{{id}}">
-                  <input type="hidden" name="direction" value="down">
-                  <button type="submit" class="fa fa-chevron-down"></button>
-                </form>
-              </td>
-            </table>
-          </td>
-      {% endfor %}
-    {% endfor %}
-    </tr>
-  </table>
-  </section>
-
-
+<!-- _________________________________________ -->
 </section id="why_logic_mapping">
 <table>
 <tr>
@@ -100,6 +61,52 @@
   </td>
 </tr>
 </table>
+</section>
+
+<section id="topic_section">
+  <table id="voting_table">
+    {% set n_questions = 4 %}
+    <tr id="topic_category_row">
+      {% for topic in topics %}
+        <th>{{topic}}</th>
+      {% endfor %}
+    <!-- questions -->
+    </tr>
+    {% for i in range(n_questions) %}
+    <tr>
+      {% for topic in topics %}
+          <td "inner_topic_table_container">
+            <table class="inner_topic_table">
+              <td id="question">
+                {% set num_questions = topic_dict[topic]|length %}
+                {% if i < num_questions %}
+                  {% set (id,(question, votecount)) = topic_dict[topic][i] %}
+                {% else %}
+                  {% set (id, (question, votecount)) = None, ("Suggest a question!", None) %}
+                {% endif %}
+                {{question}}
+              </td>
+              <td id="vote_cell">
+                {% if id != None and votecount != None %}
+                <form method="post" action="/vote/" id="upvote">
+                  <input type="hidden" name="question_id" value="{{id}}">
+                  <input type="hidden" name="direction" value="up">
+                  <button type="submit" class="fa fa-chevron-up"></button>
+                </form>
+                <span style="color:blue;"> {{votecount}} </span>
+                <form method="post" action="/vote/" id="downvote">
+                  <input type="hidden" name="question_id" value="{{id}}">
+                  <input type="hidden" name="direction" value="down">
+                  <button type="submit" class="fa fa-chevron-down"></button>
+                </form>
+                {% endif %}
+              </td>
+            </table>
+          </td>
+      {% endfor %}
+    {% endfor %}
+    </tr>
+  </table>
 </section>
 
 </section id="tfy_classroom">
