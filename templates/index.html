@@ -19,7 +19,7 @@
 </section>
 
 <section id="logic_hero">
-  <table id="logic_hero_table">
+  <table id="logic_hero_table" class="split_table">
     <tbody>
     <tr>
       <td id="logic_hero_description">
@@ -39,27 +39,42 @@
           </ul>
         </div>
       </td>
-      <td id="logic_hero_video_td">
-        <iframe src= {{url_for('static', filename='video/placeholder.mp4')}}></iframe>
+      <td id="logic_hero_video_td" class="split_table_image_wrapper">
+        <iframe src= {{url_for('static', filename='video/placeholder.mp4')}} class="split_table_image"></iframe>
       </td>
     </tr>
   </tbody>
   </table>
 </section>
 
+<br><br>
+
 <!-- _________________________________________ -->
-</section id="why_logic_mapping">
-<table>
-<tr>
-  <td><img src= {{ url_for('static', filename='img/temp.gif') }}/></td>
-  <td>
-    <ul>
-      <li> Ensure you have good reasons for your opinions</li>
-      <li> Understand other people’s reasoning better</li>
-      <li> Challenge opposing views more effectively</li>
-    </ul>
-  </td>
-</tr>
+<section id="why_logic_mapping">
+<table id="logic_mapping_table" class="split_table">
+  <tbody>
+    <tr>
+      <td id="logic_mapping_gif_td" class="split_table_image_wrapper">
+        <img src= {{ url_for('static', filename='img/temp.gif') }} class="split_table_image"/>
+      </td>
+      <td id="logic_mapping_description">
+        <div>
+          <h1> Why Logic Mapping? </h1>
+          <ul>
+            <li class="logic_mapping_list_description">
+              Ensure you have good reasons for your opinions
+            </li>
+            <li class="logic_mapping_list_description">
+              Understand other people’s reasoning better
+            </li>
+            <li class="logic_mapping_list_description">
+              Challenge opposing views more effectively
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  </tbody>
 </table>
 </section>
 

@@ -36,7 +36,6 @@ section #top_logos{
 #big_photo img{
   width: 100%;
   margin: 0; padding: 0; border: 0;
-
 }
 
 #description span{
@@ -49,17 +48,21 @@ section #top_logos{
   color: #7e7e7e /* gray */
 }
 
+/* _______________________________________ */
+
 section #logic_hero_table{
+  background-color: #d7d7d7 /* light gray */
+}
+
+.split_table {
   width: 100%;
   height: 20em;
-  background-color: #d7d7d7 /* light gray */
 }
 
 #logic_hero_table td{
   display: inline-block;
   width: 49%; height: 100%;
 }
-
 
 #logic_hero_description h1, span{
   display: block;
@@ -95,16 +98,67 @@ section #logic_hero_table{
   font-weight: lighter;
 }
 
-#logic_hero_video_td {
+.split_table_image_wrapper {
   top: 0%;
   left: 50%;
-  width: 50%; height: 100%;
 }
-#logic_hero_table td iframe{
+
+.split_table_image{
     display: block;
     margin: 0 auto;
     height:  100%; width: 100%;
 }
+
+/* __________________________________ */
+
+section #logic_mapping_table{
+  background-color: black; /* light gray */
+}
+
+#logic_mapping_table td{
+  display: inline-block;
+  width: 49%; height: 100%;
+  color: lightblue;
+}
+
+
+#logic_mapping_description h1{
+  display: block;
+  text-align: center;
+  align-items: center;
+  width: 70%;
+  margin: 0 15% 0 15%;
+}
+
+#logic_mapping_description h1{
+  font-size: 200%;
+}
+
+#logic_mapping_description div {
+  display: inline-block;
+  margin: 0;
+  width: 100%;
+}
+
+#logic_mapping_description ul{
+  display: block;
+  width: 80%;
+  margin: 0 12% 0 8%;
+
+}
+
+#logic_mapping_description ul li{
+  font-size: 120%;
+  font-weight: lighter;
+}
+
+/* __________________________________ */
+
+
+
+
+
+
 
 #voting_table{
   width: 96%; height: 96%;
