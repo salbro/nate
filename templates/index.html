@@ -8,7 +8,7 @@
 
 <section id="top_logos">
   <img id="logo_top" src= {{ url_for('static', filename='img/tfy.png') }}></img>
-  <img id="logic_hero_icon" src= {{ url_for('static', filename='img/logic_hero_icon.jpg') }}> </img>
+  <img id="logic_hero_icon" src= {{ url_for('static', filename='img/logic_hero_icon.png') }}> </img>
 </section>
 <section id="big_photo">
   <img src= {{ url_for('static', filename='img/nate.png') }}/>
@@ -19,22 +19,30 @@
 </section>
 
 <section id="logic_hero">
-  <table>
+  <table id="logic_hero_table">
+    <tbody>
     <tr>
       <td id="logic_hero_description">
-        <h1>Logic Hero</h1>
-        <strong>Choose your topics. Battle the sheep. Win with logic.
-        Our species is counting on you.</strong>
-        <ul>
-          <li> Play through real-world controversies in Politics, Sports, Morality, and Entertainment</li>
-          <li> Use the power of Logic Mapping to vanquish ignorance and restore our species to sanity</li>
-          <li> Visualize te logic inherent in our conversations </li>
-        </ul>
+        <div> <!-- USE THIS DIV -->
+          <h1>Logic Hero</h1>
+          <span>Choose your topics. Battle the sheep.
+          <strong>Win with logic.</strong>
+          Our species is counting on you.</span>
+          <br>
+          <ul>
+            <li class="logic_hero_list_description"> Play through real-world controversies in Politics, Sports, Morality, and Entertainment</li>
+            <br>
+            <li class="logic_hero_list_description"> Use the power of Logic Mapping to vanquish ignorance and restore our species to sanity</li>
+            <br>
+            <li class="logic_hero_list_description"> Visualize the logic inherent in our conversations </li>
+          </ul>
+        </div>
       </td>
       <td id="logic_hero_video_td">
         <iframe src= {{url_for('static', filename='video/placeholder.mp4')}}></iframe>
       </td>
     </tr>
+  </tbody>
   </table>
 </section>
 
