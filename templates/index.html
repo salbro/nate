@@ -60,6 +60,7 @@
       <td id="logic_mapping_description">
         <div>
           <h1> Why Logic Mapping? </h1>
+          <br>
           <ul>
             <li class="logic_mapping_list_description">
               Ensure you have good reasons for your opinions
@@ -78,8 +79,11 @@
 </table>
 </section>
 
+<!-- _______________________________________ -->
+
 <section id="topic_section">
   <table id="voting_table">
+    <caption>Logic Hero Topics</caption>
     {% set n_questions = 4 %}
     <tr id="topic_category_row">
       {% for topic in topics %}
@@ -124,15 +128,20 @@
   </table>
 </section>
 
-</section id="tfy_classroom">
-<table>
+<section id="tfy_classroom">
+<table class="split_table">
 <tr>
-  <td><iframe src= {{ url_for('static', filename='video/placeholder.mp4')}}></iframe></td>
-  <td>
-    <h1>Reasoning in the Classroom</h1>
-    <p>Teachers and administrators are clamoring for products that teach hard reasoning skills.</p>
-
-    <p>We’re integrating Logic Mapping with new technologies to create tools that impart these skills more effectively than traditional textbook methods.</p>
+  <td class="split_table_image_wrapper">
+    <iframe class="split_table_image" src= {{ url_for('static', filename='video/placeholder.mp4')}}>
+    </iframe>
+  </td>
+  <td id="tfy_classroom_description">
+    <div>
+      <h1>Reasoning in the Classroom</h1>
+      <br>
+        <p>Teachers and administrators are clamoring for products that teach hard reasoning skills.</p>
+        <p>We’re integrating Logic Mapping with new technologies to create tools that impart these skills more effectively than traditional textbook methods.</p>
+    </div>
   </td>
 </tr>
 </table>
@@ -146,8 +155,8 @@
 </section>
 
 <section id="team">
-<table>
-  <tr> <strong>Our Team</strong> </tr>
+<table id="team_table">
+  <caption>Our Team</caption>
   <tr>
     <td><img src= {{ url_for('static', filename='img/brian.jpg') }}/></td>
     <td><img src= {{ url_for('static', filename='img/nate.jpg') }}/></td>
