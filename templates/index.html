@@ -47,8 +47,6 @@
   </table>
 </section>
 
-<br><br>
-
 <!-- _________________________________________ -->
 <section id="why_logic_mapping">
 <table id="logic_mapping_table" class="split_table">
@@ -60,7 +58,6 @@
       <td id="logic_mapping_description">
         <div>
           <h1> Why Logic Mapping? </h1>
-          <br>
           <ul>
             <li class="logic_mapping_list_description">
               Ensure you have good reasons for your opinions
@@ -150,7 +147,6 @@
 <section id="vision_to_reality">
   <h1>From Vision to Reality</h1>
   <p>Hard skills will change how we have hard conversations.</p>
-
   <p>They empower us to escape the false safety of the echo chamber into robust engagement with opposing views.</p>
 </section>
 
@@ -158,41 +154,64 @@
 <table id="team_table">
   <caption>Our Team</caption>
   <tr>
-    <td><img src= {{ url_for('static', filename='img/brian.jpg') }}/></td>
-    <td><img src= {{ url_for('static', filename='img/nate.jpg') }}/></td>
-    <td><img src= {{ url_for('static', filename='img/anne.jpg') }}/></td>
+    <td><img id="founder_photo" src= {{ url_for('static', filename='img/brian.jpg') }}/></td>
+    <td><img id="founder_photo" src= {{ url_for('static', filename='img/nate.jpg') }}/></td>
+    <td><img id="founder_photo" src= {{ url_for('static', filename='img/anne.jpg') }}/></td>
   </tr>
   <tr>
-    <td>Brian Wood</td>
-    <td>Nate Otey</td>
-    <td>Anne Sanderson</td>
+    <td id="founder_name"><strong>Brian Wood</strong></td>
+    <td id="founder_name"><strong>Nathan Otey</strong></td>
+    <td id="founder_name"><strong>Anne Sanderson</strong></td>
   </tr>
   <tr>
     <td><p>Brian Wood is a co-founder and CEO of Think For Yourself. He received his J.D. in 2012 from Harvard Law School and graduated summa cum laude in 2009 from Georgetown University with a B.A. in honors philosophy and government. Grateful for the opportunities he had, Brian has a passion for ensuring everyone has access to the complete educations they deserve.</p></td>
-    <td><p>Nate Otey is a co-founder and COO of Think For Yourself. He studied philosophy and mathematics at Harvard (cum laude 2015). Since 2013 he has taught high school students to map arguments in classrooms, internships, and summer courses. Nate also conducts workshops on controversial topics in philosophy, bioethics, and current events. He dreams of a more logical world.<p></td>
+    <td><p>Nate Otey is a co-founder and COO of Think For Yourself. He studied philosophy and mathematics at Harvard (cum laude 2015). Since 2013 he has taught high school students to map arguments in classrooms, internships, and summer courses. Nate also conducts workshops on controversial topics in philosophy, bioethics, and current events. He dreams of a more logical world.</p></td>
     <td><p>Anne Sanderson is a consultant working with Think For Yourself. She has over 20 years experience teaching in Boston schools and is the co-director of ThinkerAnalytix, a nonprofit dedicated to reasoning education for high school students.</p></td>
   </tr>
 </table>
 </section>
 
 <section id="contact">
-  <table>
+  <table class="split_table">
     <tr>
       <td>
         <h1> Contact Us</h1>
         <p> We would love to hear from you.</p>
         <p> If you share our vision of a more logical world, please help us bring it to life! </p>
-        <img src= {{ url_for('static', filename='img/tfy.png') }}></image>
-        <br>
+        <div id="tfy_footer_logo_wrapper">
+          <img id="tfy_footer_logo" src= {{ url_for('static', filename='img/tfy.png') }}></image>
+        </div>
         <small>© 2017 Think For Yourself. All usage of this site is subject to our Terms of Use.</small>
       </td>
       <td>
         <form method='POST' action='/contact'>
-          <div>Name (required): <input type="text" name="name"/></div>
-          <div>Email (required): <input type="text" name="email"/></div>
-          <div>Subject: <input type="text" name="subject"/></div>
-          <div>Body: <input type="text" name="body"/></div>
-          <div><button type="submit">Submit</button></div>
+          <div class="contact_input_wrapper">
+            <label>Your Name (required):</label>
+            <br>
+            <input type="text" class="contact_input" name="name"/ maxlength="30">
+          </div>
+          <br>
+          <div class="contact_input_wrapper">
+            <label>Your Email (required):</label>
+            <br>
+            <input type="text" class="contact_input" name="email" maxlength="25"/>
+          </div>
+          <br>
+          <div class="contact_input_wrapper">
+            <label>Subject:</label>
+            <br>
+            <input type="text" class="contact_input" name="subject" maxlength="50"/>
+          </div>
+          <br>
+          <div class="contact_input_wrapper">
+            <label>Your Message:</label>
+            <br>
+            <textarea id="email_body" type="text" name="body" cols="40" rows="20"/> </textarea>
+          </div>
+          <br>
+          <div class="contact_input_wrapper">
+            <button type="submit" id="contact_button">Send</button>
+          </div>
         </form>
       </td>
     </tr>

@@ -51,7 +51,8 @@ section #top_logos{
 /* _______________________________________ */
 
 section #logic_hero_table{
-  background-color: #d7d7d7 /* light gray */
+  background-color: #d7d7d7; /* light gray */
+  padding: 3% 0 3% 0;
 }
 
 .split_table {
@@ -74,16 +75,16 @@ section #logic_hero_table{
 
 #logic_hero_description h1{
   color: blue;
-  font-size: 200%;
+  font-size: 300%;
 }
 
 #logic_hero_description span{
-  font-size: 150%;
+  font-size: 200%;
 }
 
 #logic_hero_description div {
   display: inline-block;
-  margin: 2% 0 4% 0;
+  width:100%; height: 100%;
 }
 
 #logic_hero_description ul{
@@ -105,13 +106,15 @@ section #logic_hero_table{
 .split_table_image{
     display: block;
     margin: 0 auto;
-    height:  100%; width: 100%;
+    height:  100%; width: 97%;
+    margin-left: 3%;
 }
 
 /* __________________________________ */
 
 section #logic_mapping_table{
   background-color: black; /* light gray */
+  padding: 3% 0 3% 0;
 }
 
 #logic_mapping_table td{
@@ -130,14 +133,13 @@ section #logic_mapping_table{
 }
 
 #logic_mapping_description h1{
-  font-size: 200%;
-  padding-top: 2%;
+  font-size: 300%;
 }
 
 #logic_mapping_description div {
   display: inline-block;
-  margin: 0;
-  width: 100%;
+  margin: 0; padding: 0;
+  width: 100%; height: 100%;
 }
 
 #logic_mapping_description ul{
@@ -150,7 +152,7 @@ section #logic_mapping_table{
 #logic_mapping_description ul li{
   font-size: 180%;
   font-weight: lighter;
-  margin: 5px;
+  margin: 5%;
 }
 
 /* __________________________________ */
@@ -198,6 +200,7 @@ td #vote_cell{
 /* ______________________________________ */
 #tfy_classroom {
   background-color: #4995ff;
+  padding: 3% 0 3% 0;
 }
 
 #tfy_classroom_description div {
@@ -214,8 +217,8 @@ td #vote_cell{
 }
 
 #tfy_classroom_description div h1{
-  padding: 2%;
   text-align: center;
+  font-size: 300%;
 }
 
 #tfy_classroom_description div p{
@@ -223,11 +226,40 @@ td #vote_cell{
   font-size: 150%;
 }
 
+/* ________________ vision to reality _____________ */
+
+#vision_to_reality{
+  padding: 3% 0 3% 0;
+  background-color: lightgray; /* gray */
+}
+
+#vision_to_reality h1{
+  width: 100%;
+  text-align: center;
+  font-size: 400%;
+  color: #4995ff;
+  padding: 0; margin: 0;
+}
+
+#vision_to_reality p{
+  margin: 0 15% 0 15%;
+  padding: 1% 0 1% 0;
+  width: 70%;
+  text-align: center;
+  font-size: 250%;
+  color: black;
+}
+
 /* _____________ team _______________ */
+#team{
+  padding: 3% 0 3% 0;
+}
 #team p{
   color: black;
   margin: 0;
-  width: 100%;
+  padding-top: 0;
+  width: 100%; height: 100%;
+  font-size: 120%;
 }
 
 #team_table{
@@ -235,6 +267,93 @@ td #vote_cell{
 }
 
 #team_table td{
-  width: 25%;
-  padding: 0 5% 0 5%;
+  display: table-cell;
+  vertical-align: top;
+  width: 30%;
+  padding: 0 3% 0 3%;
+}
+
+#founder_photo{
+  width: 100%; height: auto;
+}
+
+td#founder_name{
+  color: black;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  font-size: 180%;
+}
+
+#team_table caption{
+  font-size: 400%;
+}
+
+/* __________________ contact us _________________ */
+#contact{
+  background-color: black;
+  padding: 3% 0 3% 0;
+}
+
+#contact h1, p, small{
+  text-align: center;
+  color: white;
+}
+
+#contact h1{
+  font-size: 400%;
+  margin: 0;
+}
+
+#contact p{
+  font-size: 300%;
+  padding: 3% 0 3% 0;
+}
+
+#tfy_footer_logo_wrapper{
+  width: 100%;
+}
+#tfy_footer_logo{
+  display: block; margin: 0 auto; /* center horiz. */
+  width: 70%;
+  padding: 3% 0 3% 0;
+}
+
+#contact small{
+  display: block; margin: 0 auto;
+  width: 100%;
+  font-size: 100%;
+  padding: 2% 0 2% 0;
+}
+
+#contact form{
+  display: inline-block;
+  color: white;
+  width: 100%;
+}
+
+.contact_input{
+  width: 50%;
+  font-size: 18pt;
+  margin-top: 10px;
+}
+
+.contact_input_wrapper{
+  padding: 1%;
+}
+
+.contact_input_wrapper label{
+  font-size: 14pt;
+}
+
+textarea#email_body{
+  margin-top: 10px;
+  width: 100%;
+}
+
+button#contact_button{
+  width: 7em;
+  height: 2em;
+  font-size: 1.2em;
+  border-radius: .5em;
+  background-color: lightblue;
 }
