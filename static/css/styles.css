@@ -185,7 +185,7 @@ td #question{
   padding-left: 3%; padding-right: 3%;
 
 }
-td #vote_cell{
+td .vote_cell{
   display: inline-block;
   align-items: center;
   /*top: 0%;
@@ -193,7 +193,7 @@ td #vote_cell{
    width: 90%; height: 100%;
 }
 
-#vote_cell form button{
+.vote_cell form button{
   width: 100%;
 }
 

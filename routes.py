@@ -41,27 +41,35 @@ def submit():
         results = search(entity)
         return render_template("results.html", entity=entity, results=results)
 
-@app.route('/vote/', methods=['GET', 'POST'])
-def vote():
+@app.route('/_vote/', methods=['GET'])
+def _vote():
     '''
     description: saves an upvote or downvote into the json dictionary
     usage: save_vote("topics.json", 'Morality1', 'down')
     '''
-    question_id = request.form['question_id']
-    direction = request.form['direction']
-    if request.method == 'POST' or request.method == 'GET':
-        with open(JSON_STORAGE, 'r') as fp:
-            topic_dict = json.load(fp)
+    button_id_direction = request.args.get('button_id_direction', 0, type=str)
+    question_id = button_id_direction.split("_")[0]
+    direction = button_id_direction.split("_")[1]
 
-        # vital that ids be digits only. picks 'Morality' out of 'Morality148'
-        category = ''.join([i for i in str(question_id) if not i.isdigit()])
-        if direction == "up":
-            topic_dict[category][question_id][1] += 1
-        elif direction == "down":
-            topic_dict[category][question_id][1] -= 1
+    # with open(JSON_STORAGE, 'r') as fp:
+    #     topic_dict = json.load(fp)
 
-        with open(JSON_STORAGE, 'w') as fp:
-            json.dump(topic_dict, fp)
+    return jsonify(result="foo")
+
+    # return jsonify(result=str((topic_dict[category][question_id][1] + 1)))
+    #
+    # # vital that ids be digits only. picks 'Morality' out of 'Morality148'
+    # category = ''.join([i for i in str(question_id) if not i.isdigit()])
+    # if direction == "up":
+    #     topic_dict[category][question_id][1] += 1
+    # elif direction == "down":
+    #     topic_dict[category][question_id][1] -= 1
+    #
+    # with open(JSON_STORAGE, 'w') as fp:
+    #     json.dump(topic_dict, fp)
+    #
+    # return jsonify(result=(topic_dict[category][question_id][1] + 1))
+
 
         ######################################
         # new_topic_dict = {}
@@ -73,4 +81,3 @@ def vote():
         #     questions = list(category_dict.iteritems())
         #     questions.sort(key=lambda elem: elem[1][1])
         #     sorted_by_votes[category] = questions[::-1]
-        return redirect(url_for("hello"))

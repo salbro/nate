@@ -102,19 +102,19 @@
                 {% endif %}
                 {{question}}
               </td>
-              <td id="vote_cell">
+              <td class="vote_cell">
                 {% if id != None and votecount != None %}
-                <form method="post" action="/vote/" id="upvote">
-                  <input type="hidden" name="question_id" value="{{id}}">
-                  <input type="hidden" name="direction" value="up">
-                  <button type="submit" class="fa fa-chevron-up"></button>
+                <!-- <form method="post" class="upvote">
+                  <input type="hidden" name="question_id" value= {{id}}>
+                  <input type="hidden" name="direction" value="up"> -->
+                  <button id = {{ id + "_" + "up" }}  href="#" class="fa fa-chevron-up calculate"></button>
                 </form>
-                <span style="color:blue;"> {{votecount}} </span>
-                <form method="post" action="/vote/" id="downvote">
-                  <input type="hidden" name="question_id" value="{{id}}">
-                  <input type="hidden" name="direction" value="down">
-                  <button type="submit" class="fa fa-chevron-down"></button>
-                </form>
+                <span id= {{id}} style="color:blue;"> {{votecount}} </span>
+                <!-- <form method="post" class="downvote"> -->
+                  <!-- <input type="hidden" name="question_id" value= {{id}} >
+                  <input type="hidden" name="direction" value="down"> -->
+                <button id = {{ id + "_" + "down" }}  href="#" class="fa fa-chevron-down calculate"></button>
+                <!-- </form> -->
                 {% endif %}
               </td>
             </table>
