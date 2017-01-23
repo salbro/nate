@@ -3,27 +3,21 @@ import data
 import operator
 import json
 JSON_STORAGE = "topics.json"
+TABLE_HEIGHT = 4
 
 @app.route('/')
 def hello():
-    # url = url_for('about')
-    # form_url = url_for('form')
-    # return '<a href="' + url + '">About us!</a><br></br><a href="' + form_url + '">search for entities</a>'
     new_topic_dict = {}
-    with open('topics.json', 'r') as fp:
-        topics_dictionary = json.load(fp)
+    with open(JSON_STORAGE, 'r') as fp:
+        topics_dict = json.load(fp)
 
     sorted_by_votes = {}
-    for (category, category_dict) in topics_dictionary.items():
+    for (category, category_dict) in topics_dict.items():
         questions = list(category_dict.items())
         questions.sort(key=lambda elem: elem[1][1])
         sorted_by_votes[category] = questions[::-1]
 
     return render_template("index.html", topic_dict=sorted_by_votes, topics = data.topics)
-
-@app.route('/about')
-def about():
-    return 'This is a website built in flask.';
 
 @app.route('/contact', methods=['POST'])
 def contact():
@@ -33,14 +27,6 @@ def contact():
     body = request.form['body']
     return str(name + " (" + email + ") emailed you this: " + body)
 
-
-@app.route('/submit', methods=['GET', 'POST'])
-def submit():
-    if request.method == 'POST':
-        entity = request.form['entity']
-        results = search(entity)
-        return render_template("results.html", entity=entity, results=results)
-
 @app.route('/_vote/', methods=['GET'])
 def _vote():
     '''
@@ -49,35 +35,37 @@ def _vote():
     '''
     button_id_direction = request.args.get('button_id_direction', 0, type=str)
     question_id = button_id_direction.split("_")[0]
+
+    # vital that ids be digits only. picks 'Morality' out of 'Morality148'
+    category = ''.join([i for i in str(question_id) if not i.isdigit()])
     direction = button_id_direction.split("_")[1]
 
-    # with open(JSON_STORAGE, 'r') as fp:
-    #     topic_dict = json.load(fp)
+    with open(JSON_STORAGE, 'r') as fp:
+        topic_dict = json.load(fp)
 
-    return jsonify(result="foo")
+    highest_vote_num = max(list(topic_dict[category].items()), key=lambda elem: elem[1][1])[1][1]
 
-    # return jsonify(result=str((topic_dict[category][question_id][1] + 1)))
-    #
-    # # vital that ids be digits only. picks 'Morality' out of 'Morality148'
-    # category = ''.join([i for i in str(question_id) if not i.isdigit()])
-    # if direction == "up":
-    #     topic_dict[category][question_id][1] += 1
-    # elif direction == "down":
-    #     topic_dict[category][question_id][1] -= 1
-    #
-    # with open(JSON_STORAGE, 'w') as fp:
-    #     json.dump(topic_dict, fp)
-    #
-    # return jsonify(result=(topic_dict[category][question_id][1] + 1))
+    if direction == "up":
+        topic_dict[category][question_id][1] += 1
+    elif direction == "down":
+        topic_dict[category][question_id][1] -= 1
 
 
-        ######################################
-        # new_topic_dict = {}
-        # with open(JSON_STORAGE, 'r') as fp:
-        #     topics_dictionary = json.load(fp)
-        #
-        # sorted_by_votes = {}
-        # for (category, category_dict) in topics_dictionary.iteritems():
-        #     questions = list(category_dict.iteritems())
-        #     questions.sort(key=lambda elem: elem[1][1])
-        #     sorted_by_votes[category] = questions[::-1]
+    result = {'votecount': topic_dict[category][question_id][1], 'id': question_id, 'newly_sorted_qs': None}
+
+    with open(JSON_STORAGE, 'w') as fp:
+        json.dump(topic_dict, fp)
+
+
+    if topic_dict[category][question_id][1] > highest_vote_num:
+        all_questions_in_category = list(topic_dict[category].items())
+        all_questions_in_category.sort(key=lambda elem: elem[1][1])
+        newly_sorted_qs = all_questions_in_category[::-1]
+
+        num_qs = len(newly_sorted_qs)
+        if num_qs >= TABLE_HEIGHT:
+            result['newly_sorted_qs'] = newly_sorted_qs[:TABLE_HEIGHT]
+        else:
+            result['newly_sorted_qs'] = newly_sorted_qs + [None for _ in range(TABLE_HEIGHT - num_qs)]
+
+    return jsonify(result)

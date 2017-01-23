@@ -81,40 +81,33 @@
 <section id="topic_section">
   <table id="voting_table">
     <caption>Logic Hero Topics</caption>
-    {% set n_questions = 4 %}
+    {% set table_height = 4 %}
     <tr id="topic_category_row">
       {% for topic in topics %}
         <th>{{topic}}</th>
       {% endfor %}
     <!-- questions -->
     </tr>
-    {% for i in range(n_questions) %}
+    {% for i in range(table_height) %}
     <tr>
+      {% set question_display_num = 0 %}
       {% for topic in topics %}
           <td "inner_topic_table_container">
-            <table class="inner_topic_table">
-              <td id="question">
+            <table class="inner_topic_table" id= {{ topic + "_" + question_display_num|string() }}>
                 {% set num_questions = topic_dict[topic]|length %}
                 {% if i < num_questions %}
                   {% set (id,(question, votecount)) = topic_dict[topic][i] %}
                 {% else %}
                   {% set (id, (question, votecount)) = None, ("Suggest a question!", None) %}
                 {% endif %}
+              <td id="question">
                 {{question}}
               </td>
               <td class="vote_cell">
                 {% if id != None and votecount != None %}
-                <!-- <form method="post" class="upvote">
-                  <input type="hidden" name="question_id" value= {{id}}>
-                  <input type="hidden" name="direction" value="up"> -->
-                  <button id = {{ id + "_" + "up" }}  href="#" class="fa fa-chevron-up calculate"></button>
-                </form>
-                <span id= {{id}} style="color:blue;"> {{votecount}} </span>
-                <!-- <form method="post" class="downvote"> -->
-                  <!-- <input type="hidden" name="question_id" value= {{id}} >
-                  <input type="hidden" name="direction" value="down"> -->
-                <button id = {{ id + "_" + "down" }}  href="#" class="fa fa-chevron-down calculate"></button>
-                <!-- </form> -->
+                  <button id = {{ id + "_up" }}  href="#" class="fa fa-chevron-up calculate"></button>
+                  <span id= {{ id + "_votecount" }} style="color:blue;"> {{votecount}} </span>
+                  <button id = {{ id + "_down" }}  href="#" class="fa fa-chevron-down calculate"></button>
                 {% endif %}
               </td>
             </table>
