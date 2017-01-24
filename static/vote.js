@@ -1,5 +1,8 @@
 jQuery(document).ready(function() {
-    $('.calculate').bind('click', function()
+    $('.calculate').bind('click', handleClick)
+  });
+
+    function handleClick()
     {
       button_id = this.id.split("_")[0]
       button_direction = this.id.split("_")[1]
@@ -10,8 +13,9 @@ jQuery(document).ready(function() {
           button_id_direction: this.id
         },
           function(data) {
+            /* newly_sorted_qs: questions passed back from server if a change
+             in order is necessary */
             if(data['newly_sorted_qs']){
-              var question_display_num = 0;
               for (var i = 0; i < data['newly_sorted_qs'].length; i++){
                 var question_info = data['newly_sorted_qs'][i];
                 if(question_info){
@@ -19,32 +23,29 @@ jQuery(document).ready(function() {
                   var q_text = question_info[1][0];
                   var q_votecount = question_info[1][1];
 
-                  var tableHTML = " \
-                    <td>" + q_text + "</td> \
+                  var tableHTML = "<tbody><tr><td class='question'>" + q_text + "</td> \
                     <td class='vote_cell'> \
                         <button id ='" + q_id + "_up' href='#' class='fa fa-chevron-up calculate'></button> \
                         <span id='" + q_id + "_votecount' style='color:blue;'>" + q_votecount + "</span> \
                         <button id='" + q_id + "_down' href='#' class='fa fa-chevron-down calculate'></button> \
-                    </td> \
-                    ";
+                    </td></tr></tbody>";
                 }
 
                 else{ // no question to display
                   var tableHTML = "<td>Suggest a question!</td>";
                 }
 
-                var tableID = "#"+button_topic+"_"+question_display_num.toString();
-                question_display_num += 1;
+                // rewrite that table's html
+                $("#"+button_topic+"_"+i.toString()).html(tableHTML);
+              } //end for loop over questions
 
-                var el = $(tableID);
-                alert(tableHTML);
-                $("#"+button_topic+"_"+question_display_num.toString()).text(tableHTML);
-              }
+              // rebind all buttons after they've been remade in for loop
+              $('.calculate').bind('click', handleClick);
             }
-            else{
+
+            else{ // no change in order necessary. just update votecount
               $("#"+data['id']+"_votecount").text(data['votecount']);
             }
         });
         return false;
-    });
-  });
+    }

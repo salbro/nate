@@ -90,17 +90,16 @@
     </tr>
     {% for i in range(table_height) %}
     <tr>
-      {% set question_display_num = 0 %}
       {% for topic in topics %}
           <td "inner_topic_table_container">
-            <table class="inner_topic_table" id= {{ topic + "_" + question_display_num|string() }}>
+            <table class="inner_topic_table" id= {{ topic + "_" + i|string }}>
                 {% set num_questions = topic_dict[topic]|length %}
                 {% if i < num_questions %}
                   {% set (id,(question, votecount)) = topic_dict[topic][i] %}
                 {% else %}
                   {% set (id, (question, votecount)) = None, ("Suggest a question!", None) %}
                 {% endif %}
-              <td id="question">
+              <td class="question">
                 {{question}}
               </td>
               <td class="vote_cell">
