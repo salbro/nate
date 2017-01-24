@@ -1,0 +1,183 @@
+{% extends "skeleton.html" %}
+{% block title %}Think For Yourself{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block main %}
+
+<section id="top_logos">
+  <img id="logo_top" src= {{ url_for('static', filename='img/tfy.png') }}></img>
+  <img id="logic_hero_icon" src= {{ url_for('static', filename='img/logic_hero_icon.png') }}> </img>
+</section>
+<section id="big_photo">
+  <img src= {{ url_for('static', filename='img/nate.png') }}/>
+</section>
+
+<section id="description">
+  <span>We create fun tools that unlock the power of logic and build independent thinking skills.</span>
+</section>
+
+<section id="logic_hero">
+  <table id="logic_hero_table">
+    <tbody>
+    <tr>
+      <td id="logic_hero_description">
+        <div> <!-- USE THIS DIV -->
+          <h1>Logic Hero</h1>
+          <br>
+          <span>Choose your topics. Battle the sheep. </span>
+          <span><strong>Win with logic.</strong></span>
+          <span>Our species is counting on you.</span>
+          <br>
+          <ul>
+            <li class="logic_hero_list_description"> Play through real-world controversies in Politics, Sports, Morality, and Entertainment</li>
+            <br>
+            <li class="logic_hero_list_description"> Use the power of Logic Mapping to vanquish ignorance and restore our species to sanity</li>
+            <br>
+            <li class="logic_hero_list_description"> Visualize the logic inherent in our conversations </li>
+          </ul>
+        </div>
+      </td>
+      <td id="logic_hero_video_td">
+        <iframe src= {{url_for('static', filename='video/placeholder.mp4')}}></iframe>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+</section>
+
+<!-- _________________________________________ -->
+</section id="why_logic_mapping">
+<table>
+<tr>
+  <td><img src= {{ url_for('static', filename='img/temp.gif') }}/></td>
+  <td id="logic_mapping_description">
+    <div>
+      <h1> Why Logic Mapping? </h1>
+      <ul>
+        <li> Ensure you have good reasons for your opinions</li>
+        <li> Understand other people’s reasoning better</li>
+        <li> Challenge opposing views more effectively</li>
+      </ul>
+    </div>
+  </td>
+</tr>
+</table>
+</section>
+
+<section id="topic_section">
+  <table id="voting_table">
+    {% set n_questions = 4 %}
+    <tr id="topic_category_row">
+      {% for topic in topics %}
+        <th>{{topic}}</th>
+      {% endfor %}
+    <!-- questions -->
+    </tr>
+    {% for i in range(n_questions) %}
+    <tr>
+      {% for topic in topics %}
+          <td "inner_topic_table_container">
+            <table class="inner_topic_table">
+              <td id="question">
+                {% set num_questions = topic_dict[topic]|length %}
+                {% if i < num_questions %}
+                  {% set (id,(question, votecount)) = topic_dict[topic][i] %}
+                {% else %}
+                  {% set (id, (question, votecount)) = None, ("Suggest a question!", None) %}
+                {% endif %}
+                {{question}}
+              </td>
+              <td id="vote_cell">
+                {% if id != None and votecount != None %}
+                <form method="post" action="/vote/" id="upvote">
+                  <input type="hidden" name="question_id" value="{{id}}">
+                  <input type="hidden" name="direction" value="up">
+                  <button type="submit" class="fa fa-chevron-up"></button>
+                </form>
+                <span style="color:blue;"> {{votecount}} </span>
+                <form method="post" action="/vote/" id="downvote">
+                  <input type="hidden" name="question_id" value="{{id}}">
+                  <input type="hidden" name="direction" value="down">
+                  <button type="submit" class="fa fa-chevron-down"></button>
+                </form>
+                {% endif %}
+              </td>
+            </table>
+          </td>
+      {% endfor %}
+    {% endfor %}
+    </tr>
+  </table>
+</section>
+
+</section id="tfy_classroom">
+<table>
+<tr>
+  <td><iframe src= {{ url_for('static', filename='video/placeholder.mp4')}}></iframe></td>
+  <td>
+    <h1>Reasoning in the Classroom</h1>
+    <p>Teachers and administrators are clamoring for products that teach hard reasoning skills.</p>
+
+    <p>We’re integrating Logic Mapping with new technologies to create tools that impart these skills more effectively than traditional textbook methods.</p>
+  </td>
+</tr>
+</table>
+</section>
+
+<section id="vision_to_reality">
+  <h1>From Vision to Reality</h1>
+  <p>Hard skills will change how we have hard conversations.</p>
+
+  <p>They empower us to escape the false safety of the echo chamber into robust engagement with opposing views.</p>
+</section>
+
+<section id="team">
+<table>
+  <tr> <strong>Our Team</strong> </tr>
+  <tr>
+    <td><img src= {{ url_for('static', filename='img/brian.jpg') }}/></td>
+    <td><img src= {{ url_for('static', filename='img/nate.jpg') }}/></td>
+    <td><img src= {{ url_for('static', filename='img/anne.jpg') }}/></td>
+  </tr>
+  <tr>
+    <td>Brian Wood</td>
+    <td>Nate Otey</td>
+    <td>Anne Sanderson</td>
+  </tr>
+  <tr>
+    <td><p>Brian Wood is a co-founder and CEO of Think For Yourself. He received his J.D. in 2012 from Harvard Law School and graduated summa cum laude in 2009 from Georgetown University with a B.A. in honors philosophy and government. Grateful for the opportunities he had, Brian has a passion for ensuring everyone has access to the complete educations they deserve.</p></td>
+    <td><p>Nate Otey is a co-founder and COO of Think For Yourself. He studied philosophy and mathematics at Harvard (cum laude 2015). Since 2013 he has taught high school students to map arguments in classrooms, internships, and summer courses. Nate also conducts workshops on controversial topics in philosophy, bioethics, and current events. He dreams of a more logical world.<p></td>
+    <td><p>Anne Sanderson is a consultant working with Think For Yourself. She has over 20 years experience teaching in Boston schools and is the co-director of ThinkerAnalytix, a nonprofit dedicated to reasoning education for high school students.</p></td>
+  </tr>
+</table>
+</section>
+
+<section id="contact">
+  <table>
+    <tr>
+      <td>
+        <h1> Contact Us</h1>
+        <p> We would love to hear from you.</p>
+        <p> If you share our vision of a more logical world, please help us bring it to life! </p>
+        <img src= {{ url_for('static', filename='img/tfy.png') }}></image>
+        <br>
+        <small>© 2017 Think For Yourself. All usage of this site is subject to our Terms of Use.</small>
+      </td>
+      <td>
+        <form method='POST' action='/contact'>
+          <div>Name (required): <input type="text" name="name"/></div>
+          <div>Email (required): <input type="text" name="email"/></div>
+          <div>Subject: <input type="text" name="subject"/></div>
+          <div>Body: <input type="text" name="body"/></div>
+          <div><button type="submit">Submit</button></div>
+        </form>
+      </td>
+    </tr>
+  </table>
+</section>
+
+
+
+{% endblock %}
