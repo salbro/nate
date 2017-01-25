@@ -3,6 +3,7 @@ jQuery(document).ready(function() {
   });
 
     function handleClick()
+
     {
       button_id = this.id.split("_")[0]
       button_direction = this.id.split("_")[1]
