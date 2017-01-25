@@ -40,7 +40,7 @@
         </div>
       </td>
       <td id="logic_hero_video_td" class="split_table_image_wrapper">
-        <iframe src= {{url_for('static', filename='video/placeholder.mp4')}} class="split_table_image"></iframe>
+        <!-- <iframe src= {{url_for('static', filename='video/placeholder.mp4')}} class="split_table_image"></iframe> -->
       </td>
     </tr>
   </tbody>
@@ -93,22 +93,31 @@
       {% for topic in topics %}
           <td "inner_topic_table_container">
             <table class="inner_topic_table" id= {{ topic + "_" + i|string }}>
+              <tbody>
+                <tr>
                 {% set num_questions = topic_dict[topic]|length %}
                 {% if i < num_questions %}
                   {% set (id,(question, votecount)) = topic_dict[topic][i] %}
                 {% else %}
                   {% set (id, (question, votecount)) = None, ("Suggest a question!", None) %}
                 {% endif %}
-              <td class="question">
-                {{question}}
-              </td>
-              <td class="vote_cell">
-                {% if id != None and votecount != None %}
-                  <button id = {{ id + "_up" }}  href="#" class="fa fa-chevron-up calculate"></button>
-                  <span id= {{ id + "_votecount" }} style="color:blue;"> {{votecount}} </span>
-                  <button id = {{ id + "_down" }}  href="#" class="fa fa-chevron-down calculate"></button>
-                {% endif %}
-              </td>
+                  <td class="question">
+                    {{question}}
+                  </td>
+                  <td class="vote_cell">
+                    {% if id != None and votecount != None %}
+                      <button id = {{ id + "_up" }}  href="#" class="fa fa-chevron-up calculate"></button>
+                      <span id= {{ id + "_votecount" }} style="color:blue;"> {{votecount}} </span>
+                      {% if i == 0 %}
+                        <button id = {{ id + "_down" }}  href="#" class="fa fa-chevron-down calculate top"> </button>
+                      {% else %}
+                        <button id = {{ id + "_down" }}  href="#" class="fa fa-chevron-down calculate"> </button>
+                      {% endif %}
+
+                    {% endif %}
+                  </td>
+                </tr>
+              </tbody>
             </table>
           </td>
       {% endfor %}
@@ -121,7 +130,7 @@
 <table class="split_table">
 <tr>
   <td class="split_table_image_wrapper">
-    <iframe class="split_table_image" src= {{ url_for('static', filename='video/placeholder.mp4')}}>
+    <!-- <iframe class="split_table_image" src= {{ url_for('static', filename='video/placeholder.mp4')}}> -->
     </iframe>
   </td>
   <td id="tfy_classroom_description">
