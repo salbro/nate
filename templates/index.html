@@ -81,22 +81,21 @@
 <section id="topic_section">
   <table id="voting_table">
     <caption>Logic Hero Topics</caption>
-    {% set table_height = 4 %}
     <tr id="topic_category_row">
-      {% for topic in topics %}
+      {% for topic in topic_dict.keys() %}
         <th>{{topic}}</th>
       {% endfor %}
     <!-- questions -->
     </tr>
     {% for i in range(table_height) %}
     <tr>
-      {% for topic in topics %}
+      {% for topic in topic_dict %}
           <td "inner_topic_table_container">
             <table class="inner_topic_table" id= {{ topic + "_" + i|string }}>
               <tbody>
                 <tr>
                 {% set num_questions = topic_dict[topic]|length %}
-                {% if i < num_questions %}
+                {% if topic_dict[topic][i] %}
                   {% set (id,(question, votecount)) = topic_dict[topic][i] %}
                 {% else %}
                   {% set (id, (question, votecount)) = None, ("Suggest a question!", None) %}
@@ -185,33 +184,42 @@
         <small>© 2017 Think For Yourself. All usage of this site is subject to our Terms of Use.</small>
       </td>
       <td>
-        <form method='POST' action='/contact'>
+        {% for message in get_flashed_messages() %}
+          <div class="flash"> {{ message }} </div>
+        {% endfor %}
+        <form method='POST' action= {{url_for('contact')}} >
           <div class="contact_input_wrapper">
-            <label>Your Name (required):</label>
+            {{form.hidden_tag()}}
+            <label>{{form.name.label}}</label>
             <br>
-            <input type="text" class="contact_input" name="name"/ maxlength="30">
+            {{form.name}}
+            <!-- <input type="text" class="contact_input" name="name"/ maxlength="30"> -->
           </div>
           <br>
           <div class="contact_input_wrapper">
-            <label>Your Email (required):</label>
+            <label>{{form.email.label}}</label>
             <br>
-            <input type="text" class="contact_input" name="email" maxlength="25"/>
+            <!-- <input type="text" class="contact_input" name="email" maxlength="25"/> -->
+            {{form.email}}
           </div>
           <br>
           <div class="contact_input_wrapper">
-            <label>Subject:</label>
+            <label>{{form.subject.label}}:</label>
             <br>
-            <input type="text" class="contact_input" name="subject" maxlength="50"/>
+            <!-- <input type="text" class="contact_input" name="subject" maxlength="50"/> -->
+            {{form.subject}}
           </div>
           <br>
           <div class="contact_input_wrapper">
-            <label>Your Message:</label>
+            <label>{{form.message.label}}</label>
             <br>
-            <textarea id="email_body" type="text" name="body" cols="40" rows="20"/> </textarea>
+            <!-- <textarea id="email_body" type="text" name="body" cols="40" rows="20"/> </textarea> -->
+            {{form.message}}
           </div>
           <br>
           <div class="contact_input_wrapper">
-            <button type="submit" id="contact_button">Send</button>
+            {{form.submit}}
+            <!-- <button type="submit" id="contact_button">Send</button> -->
           </div>
         </form>
       </td>

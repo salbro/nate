@@ -9,8 +9,8 @@ jQuery(document).ready(function() {
       var button_direction = this.id.split("_")[1]
       var button_topic = button_id.replace(/[0-9]/g, '');
       var row = parseInt(this.closest('table').id.split("_")[1]);
-      var votesAbove = parseInt($("#"+button_topic+"_"+(row-1).toString()).find('span').text());
-      var votesBelow = parseInt($("#"+button_topic+"_"+(row+1).toString()).find('span').text());
+      var votesAbove = $("#"+button_topic+"_"+(row-1).toString()).find('span').text();
+      var votesBelow = $("#"+button_topic+"_"+(row+1).toString()).find('span').text();
       // the website can get to here.
       $.getJSON($SCRIPT_ROOT + '/_vote',
         {

@@ -2,30 +2,28 @@ from app import *
 import data
 import operator
 import json
+import utils
+from forms import ContactForm
 JSON_STORAGE = "topics.json"
 TABLE_HEIGHT = 4
 
 @app.route('/')
 def hello():
-    new_topic_dict = {}
-    with open(JSON_STORAGE, 'r') as fp:
-        topics_dict = json.load(fp)
+    sorted_qs = utils.get_sorted_questions(table_height=TABLE_HEIGHT, json_storage=JSON_STORAGE)
+    form = ContactForm()
+    return render_template("index.html", topic_dict=sorted_qs, table_height = TABLE_HEIGHT, form=form)
 
-    sorted_by_votes = {}
-    for (category, category_dict) in topics_dict.items():
-        questions = list(category_dict.items())
-        questions.sort(key=lambda elem: elem[1][1])
-        sorted_by_votes[category] = questions[::-1]
-
-    return render_template("index.html", topic_dict=sorted_by_votes, topics = data.topics)
-
-@app.route('/contact', methods=['POST'])
+@app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    name = request.form['name']
-    email = request.form['email']
-    subject = request.form['subject']
-    body = request.form['body']
-    return str(name + " (" + email + ") emailed you this: " + body)
+    sorted_qs = utils.get_sorted_questions(table_height=TABLE_HEIGHT, json_storage=JSON_STORAGE)
+    form = ContactForm()
+
+    if request.method == 'POST':
+        if form.validate() == False:
+            flash("Error with form!")
+
+    return render_template("contact.html", topic_dict=sorted_qs, table_height = TABLE_HEIGHT, form=form)
+
 
 @app.route('/_vote/', methods=['GET'])
 def _vote():
@@ -36,11 +34,8 @@ def _vote():
     button_id_direction = request.args.get('button_id_direction', 0, type=str)
     question_id = button_id_direction.split("_")[0]
     isTopQuestion = "top" in str(request.args.get("button_class"))
-    votes_above = request.args.get("votes_above")
-    votes_below = request.args.get("votes_below")
-    # TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-    print(str(votes_above))
-
+    votes_above = None if request.args.get("votes_above") == '' else int(request.args.get("votes_above"))
+    votes_below = None if request.args.get("votes_below") == '' else int(request.args.get("votes_below"))
 
     # vital that ids be digits only. picks 'Morality' out of 'Morality148'
     category = ''.join([i for i in str(question_id) if not i.isdigit()])
@@ -49,25 +44,15 @@ def _vote():
     with open(JSON_STORAGE, 'r') as fp:
         topic_dict = json.load(fp)
 
-    sorted_questions = sorted(list(topic_dict[category].items()), key=lambda elem: elem[1][1])[::-1]
-    highest_vote_num = sorted_questions[0][1][1]
-    second_highest_vote_num = sorted_questions[1][1][1]
-    # highest_vote_num = max(list(topic_dict[category].items()), key=lambda elem: elem[1][1])[1][1]
-
-    if direction == "up":
-        topic_dict[category][question_id][1] += 1
-    elif direction == "down":
-        topic_dict[category][question_id][1] -= 1
-
-
-    result = {'votecount': topic_dict[category][question_id][1], 'id': question_id, 'newly_sorted_qs': None}
+    topic_dict[category][question_id][1] += -1 + 2*(direction=="up")
+    new_num_votes = topic_dict[category][question_id][1]
 
     with open(JSON_STORAGE, 'w') as fp:
         json.dump(topic_dict, fp)
 
+    result = {'votecount': topic_dict[category][question_id][1], 'id': question_id, 'newly_sorted_qs': None}
 
-    new_num_votes = topic_dict[category][question_id][1]
-    if new_num_votes > highest_vote_num or (isTopQuestion and new_num_votes < second_highest_vote_num):
+    if (votes_above and new_num_votes > votes_above) or (votes_below and new_num_votes < votes_below):
         all_questions_in_category = list(topic_dict[category].items())
         all_questions_in_category.sort(key=lambda elem: elem[1][1])
         newly_sorted_qs = all_questions_in_category[::-1]
