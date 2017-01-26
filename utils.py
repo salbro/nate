@@ -37,7 +37,8 @@ def get_sorted_questions(table_height=4, json_storage="topics.json"):
     return sorted_by_votes
 
 def find_file():
+    print(os.name)
     if os.name == 'nt':
-        return 'C:\Users\salbro\email.json'
-    elif os.name == 'mac':
-        return os.path.expanduser("~/Documents/email.json")
+        return str("C:\\Users\\salbro\\email.json")
+    elif os.name == 'posix':
+        return str(os.path.expanduser("~/Documents/email.json"))
