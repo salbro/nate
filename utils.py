@@ -1,4 +1,5 @@
 import json
+import os
 
 def save_vote(json_path, topic_id, direction):
     '''
@@ -34,3 +35,9 @@ def get_sorted_questions(table_height=4, json_storage="topics.json"):
             sorted_by_votes[category] = questions[::-1] + [None for _ in range(table_height - num_qs)]
 
     return sorted_by_votes
+
+def find_file():
+    if os.name == 'nt':
+        return 'C:\Users\salbro\email.json'
+    elif os.name == 'mac':
+        return os.path.expanduser("~/Documents/email.json")

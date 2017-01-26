@@ -16,7 +16,7 @@ app.config["MAIL_PORT"] = 465
 # app.config["MAIL_USE_TLS"] = True
 app.config["MAIL_USE_SSL"] = True
 
-with open("C:/Users/salbro/email.json", 'r') as fp:
+with open(utils.find_file(), 'r') as fp:
     d = json.load(fp)
     app.config["MAIL_USERNAME"] = d['email']
     app.config["MAIL_PASSWORD"] = d['password']
