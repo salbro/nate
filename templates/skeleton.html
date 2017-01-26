@@ -25,13 +25,234 @@
 <header></header>
 
 <body>
-  {%block top_logos%}{%endblock%}
-  {%block big_photo%}{%endblock%}
-  {%block top_logos%}{%endblock%}
-  {%block top_logos%}{%endblock%}
-  {%block top_logos%}{%endblock%}
-  {%block top_logos%}{%endblock%}
-  {%block top_logos%}{%endblock%}
+
+<section id="top_logos">
+  <img id="logo_top" src= {{ url_for('static', filename='img/tfy.png') }}></img>
+  <img id="logic_hero_icon" src= {{ url_for('static', filename='img/logic_hero_icon.png') }}> </img>
+</section>
+
+<section id="big_photo">
+  <img src= {{ url_for('static', filename='img/nate.png') }}/>
+</section>
+
+<section id="description">
+  <span>We create fun tools that unlock the power of logic and build independent thinking skills.</span>
+</section>
+
+<section id="logic_hero">
+  <table id="logic_hero_table" class="split_table">
+    <tbody>
+    <tr>
+      <td id="logic_hero_description">
+        <div> <!-- USE THIS DIV -->
+          <h1>Logic Hero</h1>
+          <br>
+          <span>Choose your topics. Battle the sheep. </span>
+          <span><strong>Win with logic.</strong></span>
+          <span>Our species is counting on you.</span>
+          <br>
+          <ul>
+            <li class="logic_hero_list_description"> Play through real-world controversies in Politics, Sports, Morality, and Entertainment</li>
+            <br>
+            <li class="logic_hero_list_description"> Use the power of Logic Mapping to vanquish ignorance and restore our species to sanity</li>
+            <br>
+            <li class="logic_hero_list_description"> Visualize the logic inherent in our conversations </li>
+          </ul>
+        </div>
+      </td>
+      <td id="logic_hero_video_td" class="split_table_image_wrapper">
+        <!-- <iframe src= {{url_for('static', filename='video/placeholder.mp4')}} class="split_table_image"></iframe> -->
+      </td>
+    </tr>
+  </tbody>
+  </table>
+</section>
+
+<section id="why_logic_mapping">
+<table id="logic_mapping_table" class="split_table">
+  <tbody>
+    <tr>
+      <td id="logic_mapping_gif_td" class="split_table_image_wrapper">
+        <img src= {{ url_for('static', filename='img/temp.gif') }} class="split_table_image"/>
+      </td>
+      <td id="logic_mapping_description">
+        <div>
+          <h1> Why Logic Mapping? </h1>
+          <ul>
+            <li class="logic_mapping_list_description">
+              Ensure you have good reasons for your opinions
+            </li>
+            <li class="logic_mapping_list_description">
+              Understand other people’s reasoning better
+            </li>
+            <li class="logic_mapping_list_description">
+              Challenge opposing views more effectively
+            </li>
+          </ul>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</section>
+
+<section id="topic_section">
+  <table id="voting_table">
+    <caption>Logic Hero Topics</caption>
+    <tr id="topic_category_row">
+      {% for topic in topic_dict.keys() %}
+        <th>{{topic}}</th>
+      {% endfor %}
+    <!-- questions -->
+    </tr>
+    {% for i in range(table_height) %}
+    <tr>
+      {% for topic in topic_dict %}
+          <td "inner_topic_table_container">
+            <table class="inner_topic_table" id= {{ topic + "_" + i|string }}>
+              <tbody>
+                <tr>
+                {% set num_questions = topic_dict[topic]|length %}
+                {% if topic_dict[topic][i] %}
+                  {% set (id,(question, votecount)) = topic_dict[topic][i] %}
+                {% else %}
+                  {% set (id, (question, votecount)) = None, ("Suggest a question!", None) %}
+                {% endif %}
+                  <td class="question">
+                    {{question}}
+                  </td>
+                  <td class="vote_cell">
+                    {% if id != None and votecount != None %}
+                      <button id = {{ id + "_up" }}  href="#" class="fa fa-chevron-up calculate"></button>
+                      <span id= {{ id + "_votecount" }} style="color:blue;"> {{votecount}} </span>
+                      {% if i == 0 %}
+                        <button id = {{ id + "_down" }}  href="#" class="fa fa-chevron-down calculate top"> </button>
+                      {% else %}
+                        <button id = {{ id + "_down" }}  href="#" class="fa fa-chevron-down calculate"> </button>
+                      {% endif %}
+
+                    {% endif %}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+      {% endfor %}
+    {% endfor %}
+    </tr>
+  </table>
+</section>
+
+<section id="tfy_classroom">
+<table class="split_table">
+<tr>
+  <td class="split_table_image_wrapper">
+    <!-- <iframe class="split_table_image" src= {{ url_for('static', filename='video/placeholder.mp4')}}> -->
+    </iframe>
+  </td>
+  <td id="tfy_classroom_description">
+    <div>
+      <h1>Reasoning in the Classroom</h1>
+      <br>
+        <p>Teachers and administrators are clamoring for products that teach hard reasoning skills.</p>
+        <p>We’re integrating Logic Mapping with new technologies to create tools that impart these skills more effectively than traditional textbook methods.</p>
+    </div>
+  </td>
+</tr>
+</table>
+</section>
+
+<section id="vision_to_reality">
+  <h1>From Vision to Reality</h1>
+  <p>Hard skills will change how we have hard conversations.</p>
+  <p>They empower us to escape the false safety of the echo chamber into robust engagement with opposing views.</p>
+</section>
+
+<section id="team">
+<table id="team_table">
+  <caption>Our Team</caption>
+  <tr>
+    <td><img id="founder_photo" src= {{ url_for('static', filename='img/brian.jpg') }}/></td>
+    <td><img id="founder_photo" src= {{ url_for('static', filename='img/nate.jpg') }}/></td>
+    <td><img id="founder_photo" src= {{ url_for('static', filename='img/anne.jpg') }}/></td>
+  </tr>
+  <tr>
+    <td id="founder_name"><strong>Brian Wood</strong></td>
+    <td id="founder_name"><strong>Nathan Otey</strong></td>
+    <td id="founder_name"><strong>Anne Sanderson</strong></td>
+  </tr>
+  <tr>
+    <td><p>Brian Wood is a co-founder and CEO of Think For Yourself. He received his J.D. in 2012 from Harvard Law School and graduated summa cum laude in 2009 from Georgetown University with a B.A. in honors philosophy and government. Grateful for the opportunities he had, Brian has a passion for ensuring everyone has access to the complete educations they deserve.</p></td>
+    <td><p>Nate Otey is a co-founder and COO of Think For Yourself. He studied philosophy and mathematics at Harvard (cum laude 2015). Since 2013 he has taught high school students to map arguments in classrooms, internships, and summer courses. Nate also conducts workshops on controversial topics in philosophy, bioethics, and current events. He dreams of a more logical world.</p></td>
+    <td><p>Anne Sanderson is a consultant working with Think For Yourself. She has over 20 years experience teaching in Boston schools and is the co-director of ThinkerAnalytix, a nonprofit dedicated to reasoning education for high school students.</p></td>
+  </tr>
+</table>
+</section>
+
+<section id="contact">
+  {%block contact_script%}{%endblock%}
+  <table class="split_table">
+    <tr>
+      <td>
+        <h1> Contact Us</h1>
+        <p> We would love to hear from you.</p>
+        <p> If you share our vision of a more logical world, please help us bring it to life! </p>
+        <div id="tfy_footer_logo_wrapper">
+          <img id="tfy_footer_logo" src= {{ url_for('static', filename='img/tfy.png') }}></image>
+        </div>
+        <small>© 2017 Think For Yourself. All usage of this site is subject to our Terms of Use.</small>
+      </td>
+      <td>
+        {% for message in form.name.errors %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+
+        {% for message in form.email.errors %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+
+        {% for message in form.subject.errors %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+
+        {% for message in form.message.errors %}
+          <div class="flash">{{ message }}</div>
+        {% endfor %}
+        <form method='POST' action= {{url_for('contact')}} >
+          <div class="contact_input_wrapper">
+            {{form.hidden_tag()}}
+            <label>{{form.name.label}}</label>
+            <br>
+            {{form.name}}
+          </div>
+          <br>
+          <div class="contact_input_wrapper">
+            <label>{{form.email.label}}</label>
+            <br>
+            {{form.email}}
+          </div>
+          <br>
+          <div class="contact_input_wrapper">
+            <label>{{form.subject.label}}:</label>
+            <br>
+            {{form.subject}}
+          </div>
+          <br>
+          <div class="contact_input_wrapper">
+            <label>{{form.message.label}}</label>
+            <br>
+            {{form.message}}
+          </div>
+          <br>
+          <div class="contact_input_wrapper">
+            {{form.submit}}
+          </div>
+        </form>
+      </td>
+    </tr>
+  </table>
+</section>
+
 
 </body>
 

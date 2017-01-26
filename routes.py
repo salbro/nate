@@ -1,11 +1,31 @@
-from app import *
 import data
 import operator
 import json
 import utils
 from forms import ContactForm
+from flask_mail import Message, Mail
+from flask import Flask, url_for, request, render_template, redirect, jsonify, flash
+
+app = Flask(__name__)
+app.secret_key = 'development key'
+
+mail = Mail()
+
+app.config["MAIL_SERVER"] = "smtp.gmail.com"
+app.config["MAIL_PORT"] = 465
+# app.config["MAIL_USE_TLS"] = True
+app.config["MAIL_USE_SSL"] = True
+
+with open("C:/Users/salbro/email.json", 'r') as fp:
+    d = json.load(fp)
+    app.config["MAIL_USERNAME"] = d['email']
+    app.config["MAIL_PASSWORD"] = d['password']
+
+mail.init_app(app)
+
 JSON_STORAGE = "topics.json"
 TABLE_HEIGHT = 4
+
 
 @app.route('/')
 def hello():
@@ -18,11 +38,24 @@ def contact():
     sorted_qs = utils.get_sorted_questions(table_height=TABLE_HEIGHT, json_storage=JSON_STORAGE)
     form = ContactForm()
 
+    if request.method == 'GET':
+        return render_template("contact.html", topic_dict=sorted_qs, table_height = TABLE_HEIGHT, form=form)
+
     if request.method == 'POST':
         if form.validate() == False:
             flash("Error with form!")
+            return render_template("contact.html", topic_dict=sorted_qs, table_height = TABLE_HEIGHT, form=form)
 
-    return render_template("contact.html", topic_dict=sorted_qs, table_height = TABLE_HEIGHT, form=form)
+        else:
+          msg = Message(form.subject.data, sender='stephenpalbro@gmail.com', recipients=['nathan.otey@gmail.com','stephenpalbro@gmail.com'])
+          msg.body = """
+          From: %s <%s>
+          %s
+          """ % (form.name.data, form.email.data, form.message.data)
+          mail.send(msg)
+
+          return 'Form posted.'
+
 
 
 @app.route('/_vote/', methods=['GET'])
