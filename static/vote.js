@@ -10,6 +10,9 @@ jQuery(document).ready(function() {
       var button_topic = button_id.replace(/[0-9]/g, '');
       var row = parseInt(this.closest('table').id.split("_")[1]);
 
+
+      // not sure this thing works
+      // #################################################3
       var votesAbove = 0;
       $("#"+button_topic+"_"+(row-1).toString()).find('span').each(function(){
         votesAbove += parseInt($(this).text());
@@ -20,6 +23,9 @@ jQuery(document).ready(function() {
       $("#"+button_topic+"_"+(row+1).toString()).find('span').each(function(){
         votesAbove += parseInt($(this).text());
       });
+
+      // #################################################3
+
       // var votesBelow = $("#"+button_topic+"_"+(row+1).toString()).find('span').text();
       // the website can get to here.
       $.getJSON($SCRIPT_ROOT + '/_vote',
