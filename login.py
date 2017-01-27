@@ -1,8 +1,4 @@
 from flask_wtf import Form
-from wtforms.fields import TextField, TextAreaField, BooleanField, SubmitField
-from wtforms import validators
-
-from flask_wtf import Form
 from wtforms.fields import TextField, PasswordField, SubmitField
 from wtforms import validators
 from users import User
@@ -19,10 +15,10 @@ class LoginForm(Form):
 
     def validate(self):
         rv = Form.validate(self)
-        # if not rv:
-        #     return False
+        if not rv:
+            return False
 
-        user = User(self.username.data, self.password.data)
+        user = User(username, password)
 
         if not user.is_active():
             self.username.errors.append('Unknown username')
@@ -34,11 +30,3 @@ class LoginForm(Form):
 
         self.user = user
         return True
-
-
-class ContactForm(Form):
-  name = TextField("Name",  [validators.Required("Please enter your name.")])
-  email = TextField("Email",  [validators.Required("Please enter your email address."), validators.Email("Please enter your email address.")])
-  subject = TextField("Subject",  [validators.Required("Please enter a subject.")])
-  message = TextAreaField("Message",  [validators.Required("Please enter a message.")])
-  submit = SubmitField("Send")

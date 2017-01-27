@@ -1,5 +1,11 @@
 import json
 import os
+from urllib.parse import urlparse, urljoin
+from flask import request, url_for, redirect
+from flask_wtf import Form
+from wtforms.fields import TextField, HiddenField
+from wtforms import validators
+
 
 def save_vote(json_path, topic_id, direction):
     '''
@@ -42,3 +48,18 @@ def find_file():
         return str("C:\\Users\\salbro\\email.json")
     elif os.name == 'posix':
         return str(os.path.expanduser("~/Documents/email.json"))
+
+
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc
+
+
+def get_redirect_target():
+    for target in request.args.get('next'), request.referrer:
+        if not target:
+            continue
+        if is_safe_url(target):
+            return target
