@@ -1,6 +1,10 @@
 <form method='POST' action= {{url_for('login')}} >
-  {% for message in get_flashed_messages() %}
-    {{ message }}
+  {% for username_error in form.username.errors %}
+    {{ username_error }}
+  {% endfor %}
+
+  {% for password_error in form.password.errors %}
+    {{ password_error }}
   {% endfor %}
   <div class="contact_input_wrapper">
     <!-- {{form.hidden_tag()}} -->

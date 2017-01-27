@@ -1,3 +1,4 @@
+from constants import *
 import json
 import os
 from urllib.parse import urlparse, urljoin
@@ -7,38 +8,44 @@ from wtforms.fields import TextField, HiddenField
 from wtforms import validators
 
 
-def save_vote(json_path, topic_id, direction):
+def save_vote(question_id, direction, json_path="topics.json"):
     '''
     description: saves an upvote or downvote into the json dictionary
-    usage: save_vote("topics.json", 'Morality1', 'down')
+    returns: the new number of upvotes or downvotes for the question passed in
     '''
     with open(json_path, 'r') as fp:
         topic_dict = json.load(fp)
 
     # vital that ids be digits only. picks 'Morality' out of 'Morality148'
-    category = ''.join([i for i in str(topic_id) if not i.isdigit()])
-    if direction == "up":
-        topic_dict[category][topic_id][1] += 1
-    elif direction == "down":
-        topic_dict[category][topic_id][1] -= 1
+    category = ''.join([i for i in str(question_id) if not i.isdigit()])
+    topic_dict[category][question_id][direction] += 1
 
     with open(json_path, 'w') as fp:
         json.dump(topic_dict, fp)
 
-def get_sorted_questions(table_height=4, json_storage="topics.json"):
+    return topic_dict[category][question_id][direction]
+
+def get_sorted_questions(table_height=TABLE_HEIGHT, json_storage=JSON_STORAGE):
+    ''' returns a dictionary of (lists of dictionaries):
+    the list given by dictionary key TOPIC contains <table_height> questions from topic TOPIC
+    in sorted order by number TOTAL VOTES, including up & down
+    If there are not enough questions to fill a <table_height> length list,
+    the list is filled with Nones
+    '''
+
     new_topic_dict = {}
     with open(json_storage, 'r') as fp:
         topics_dict = json.load(fp)
 
     sorted_by_votes = {}
-    for (category, category_dict) in topics_dict.items():
-        questions = list(category_dict.items())
-        questions.sort(key=lambda elem: elem[1][1])
+    for (topic, topic_dict) in topics_dict.items():
+        questions = list(topic_dict.items())
+        questions.sort(key=lambda elem: elem[1]["upvotes"] + elem[1]["downvotes"])
         num_qs = len(questions)
         if num_qs >= table_height:
-            sorted_by_votes[category] = questions[::-1][:table_height]
+            sorted_by_votes[topic] = questions[::-1][:table_height]
         else:
-            sorted_by_votes[category] = questions[::-1] + [None for _ in range(table_height - num_qs)]
+            sorted_by_votes[topic] = questions[::-1] + [None for _ in range(table_height - num_qs)]
 
     return sorted_by_votes
 

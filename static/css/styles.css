@@ -181,20 +181,37 @@ td #inner_topic_table_container{
 td .question{
   top: 0%;
   left: 0%;
-  width: 90%;
+  width: 94%;
   padding-left: 3%; padding-right: 3%;
 
 }
+
 td .vote_cell{
   display: inline-block;
   align-items: center;
   /*top: 0%;
   /*right: 10%;*/
-   width: 90%; height: 100%;
+   width: 100%; height: 100%;
 }
 
-.vote_cell form button{
+.vote_cell div{
+  display: inline-block;
+  width: 30%;
+}
+
+.vote_cell button, span{
+  display: inline-block;
+}
+
+.vote_cell button{
   width: 100%;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+
 }
 
 /* ______________________________________ */

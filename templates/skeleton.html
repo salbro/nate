@@ -27,7 +27,12 @@
 <body>
 
 <nav>
-login
+  {% if username %}
+  Welcome, {{username}}!
+  <a href= {{ url_for('logout')}}>Logout</a>
+  {% else %}
+  <a href= {{ url_for('login')}}>Login</a>
+  {% endif %}
 </nav>
 
 <section id="top_logos">
@@ -118,22 +123,31 @@ login
                 <tr>
                 {% set num_questions = topic_dict[topic]|length %}
                 {% if topic_dict[topic][i] %}
-                  {% set (id,(question, votecount)) = topic_dict[topic][i] %}
+                  {% set id = topic_dict[topic][i][0] %}
+                  {% set question = topic_dict[topic][i][1]["question"] %}
+                  {% set downvotes = topic_dict[topic][i][1]["downvotes"] %}
+                  {% set upvotes = topic_dict[topic][i][1]["upvotes"] %}
                 {% else %}
-                  {% set (id, (question, votecount)) = None, ("Suggest a question!", None) %}
+                  {% set question, id, downvotes, upvotes = "Suggest a question!", None, None, None  %}
                 {% endif %}
                   <td class="question">
                     {{question}}
                   </td>
+                </tr>
+                <tr>
                   <td class="vote_cell">
                     {% if id != None and votecount != None %}
-                      <button id = {{ id + "_up" }}  href="#" class="fa fa-chevron-up calculate"></button>
-                      <span id= {{ id + "_votecount" }} style="color:blue;"> {{votecount}} </span>
-                      {% if i == 0 %}
-                        <button id = {{ id + "_down" }}  href="#" class="fa fa-chevron-down calculate top"> </button>
-                      {% else %}
-                        <button id = {{ id + "_down" }}  href="#" class="fa fa-chevron-down calculate"> </button>
-                      {% endif %}
+                      <div>
+                        <button id = {{ id + "_upvote" }}  href="#" class="fa fa-thumbs-o-up calculate"></button>
+                        <span id= {{ id + "_upvotes" }} style="color:blue;"> {{upvotes}} </span>
+                      </div>
+                      <div>
+                        INSERT BAR
+                      </div>
+                      <div>
+                        <button id = {{ id + "_downvote" }}  href="#" class="fa fa-thumbs-o-down calculate"> </button>
+                        <span id= {{ id + "_downvotes" }} style="color:blue;"> -{{downvotes}} </span>
+                      </div>
 
                     {% endif %}
                   </td>
