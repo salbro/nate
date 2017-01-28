@@ -1,4 +1,5 @@
 ./static/video/*
-./db_credentials.json
-./DB.ipynb
-./*heckpoint*
+db_credentials.json
+DB.ipynb
+*heckpoint*
+./.ipynb_checkpoints
