@@ -15,7 +15,7 @@ jQuery(document).ready(function() {
       // #################################################3
       var votesAbove = 0;
       $("#"+button_topic+"_"+(row-1).toString()).find('span').each(function(){
-        votesAbove += parseInt($(this).text());
+        votesAbove += Math.abs(parseInt($(this).text()));
       });
       alert(votesAbove);
 
@@ -23,6 +23,13 @@ jQuery(document).ready(function() {
       $("#"+button_topic+"_"+(row+1).toString()).find('span').each(function(){
         votesAbove += parseInt($(this).text());
       });
+
+      if (row === 0){
+        votesAbove = '';
+      }
+      if (row === 4){ /* CHANGE CHANGE CHANGE don't hard code */
+        votesBelow = '';
+      }
 
       // #################################################3
 
