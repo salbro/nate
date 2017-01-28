@@ -13,17 +13,18 @@ def save_vote(question_id, direction, json_path="topics.json"):
     description: saves an upvote or downvote into the json dictionary
     returns: the new number of upvotes or downvotes for the question passed in
     '''
+    direction_key = direction + "s"
     with open(json_path, 'r') as fp:
         topic_dict = json.load(fp)
 
     # vital that ids be digits only. picks 'Morality' out of 'Morality148'
     category = ''.join([i for i in str(question_id) if not i.isdigit()])
-    topic_dict[category][question_id][direction] += 1
+    topic_dict[category][question_id][direction_key] += 1
 
     with open(json_path, 'w') as fp:
         json.dump(topic_dict, fp)
 
-    return topic_dict[category][question_id][direction]
+    return (topic_dict[category][question_id][direction+"s"], topic_dict[category][question_id]["upvotes"] + topic_dict[category][question_id]["downvotes"])
 
 def get_sorted_questions(table_height=TABLE_HEIGHT, json_storage=JSON_STORAGE):
     ''' returns a dictionary of (lists of dictionaries):

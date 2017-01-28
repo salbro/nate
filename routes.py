@@ -94,21 +94,23 @@ def contact():
 @app.route('/_vote/', methods=['GET'])
 def _vote():
 
-    button_id_direction = request.args.get('button_id_direction', 0, type=str)
-    question_id = button_id_direction.split("_")[0]
+    question_id = request.args.get("button_id")
+    direction = request.args.get("button_direction")
+    # button_id_direction = request.args.get('button_id_direction', 0, type=str)
+    # question_id = button_id_direction.split("_")[0]
     isTopQuestion = "top" in str(request.args.get("button_class"))
     votes_above = None if request.args.get("votes_above") == '' else int(request.args.get("votes_above"))
     votes_below = None if request.args.get("votes_below") == '' else int(request.args.get("votes_below"))
 
     # vital that ids be digits only. picks 'Morality' out of 'Morality148'
     category = ''.join([i for i in str(question_id) if not i.isdigit()])
-    direction = button_id_direction.split("_")[1]
+    # direction = button_id_direction.split("_")[1]
 
-    new_num_votes = utils.save_vote(question_id, direction, JSON_STORAGE)
+    new_votecount, total_votes = utils.save_vote(question_id, direction, JSON_STORAGE)
 
-    result = {'votecount': topic_dict[category][question_id][1], 'id': question_id, 'newly_sorted_qs': None}
+    result = {(direction+"s"):new_votecount, 'id': question_id, 'newly_sorted_qs': None}
 
-    if (votes_above and new_num_votes > votes_above) or (votes_below and new_num_votes < votes_below):
-        results['newly_sorted_qs'] = utils.get_sorted_questions()
+    if (votes_above and total_votes > votes_above) or (votes_below and total_votes < votes_below):
+        result['newly_sorted_qs'] = utils.get_sorted_questions()
 
     return jsonify(result)
