@@ -8,11 +8,13 @@ from flask_mail import Message, Mail
 from flask import Flask, url_for, request, render_template, redirect, jsonify, flash, session
 import flask_login
 import users
+from database import db_session
 
 
 app = Flask(__name__)
 app.secret_key = 'development key'
 
+############## MAIL ####################
 mail = Mail()
 app.config["MAIL_SERVER"] = "smtp.gmail.com"
 app.config["MAIL_PORT"] = 465
@@ -24,29 +26,34 @@ with open(utils.find_file(), 'r') as fp:
     app.config["MAIL_PASSWORD"] = d['password']
 
 mail.init_app(app)
-
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
+############## MAIL ####################
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    db_session.remove()
+
 
 @login_manager.user_loader
 def load_user(user_id):
-    return users.get_user_object(user_id)
+    return users.User.query.get(int(user_id)) ## query.get provided by sqlalchemy?
 
 @app.route('/')
 def hello():
     sorted_qs = utils.get_sorted_questions(table_height=TABLE_HEIGHT, json_storage=JSON_STORAGE)
     form = ContactForm()
-    username = flask_login.current_user.username if flask_login.current_user.is_authenticated else None
+    username = flask_login.current_user.name if flask_login.current_user.is_authenticated else None
     return render_template("index.html", topic_dict=sorted_qs, table_height = TABLE_HEIGHT, form=form, username = username)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+
     form = LoginForm()
 
     if request.method == 'POST':
         if form.validate():
             flask_login.login_user(form.user)
-
+            print(form.user)
             next = request.args.get('next')
             # is_safe_url should check if the url is safe for redirects.
             # See http://flask.pocoo.org/snippets/62/ for an example.
