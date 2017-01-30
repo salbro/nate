@@ -10,9 +10,6 @@ import flask_login
 import users
 
 
-environment = jinja2.Environment()
-environment.filters['flask_login'] = flask_login
-
 app = Flask(__name__)
 app.secret_key = 'development key'
 
