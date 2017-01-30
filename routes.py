@@ -8,7 +8,6 @@ from flask_mail import Message, Mail
 from flask import Flask, url_for, request, render_template, redirect, jsonify, flash, session
 import flask_login
 import users
-import jinja2
 
 
 environment = jinja2.Environment()
