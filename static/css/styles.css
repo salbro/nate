@@ -207,6 +207,11 @@ td .question{
   height: 20%;
 }
 
+.voting_meter_td meter{
+  width: 100%;
+  background-color: blue;
+}
+
 .vote_cell_thumbs_vote{
   width: 20%;
 }
