@@ -55,13 +55,7 @@ jQuery(document).ready(function() {
                   var downvotes = question_info[1]["downvotes"];
 
 
-                  var tableHTML = "<tbody><tr><td class='question'>" + q_text + "</td></tr><tr> \
-                    <td class='vote_cell'> \
-                    <div><button id ='" + q_id + "_upvote' href='#' class='fa fa-thumbs-o-up calculate'></button> \
-                    <span id='" + q_id + "_upvotes' style='color:blue;'>" + upvotes + "</span></div> \
-                    <div> INSERT BAR </div> \
-                    <div><button id='" + q_id + "_downvote' href='#' class='fa fa-thumbs-o-down calculate'></button> \
-                    <span id='" + q_id + "_downvotes' style='color:blue;'>" + "-" + downvotes + "</span></div></tr></tbody>";
+                  var tableHTML = TFY.createTable(q_id, q_text, upvotes, downvotes);
                 }
 
                 else{ // no question to display
