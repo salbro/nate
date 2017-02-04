@@ -26,7 +26,7 @@ def save_vote(question_id, direction, json_path="topics.json"):
 
     return (topic_dict[category][question_id][direction+"s"], topic_dict[category][question_id]["upvotes"] + topic_dict[category][question_id]["downvotes"])
 
-def get_sorted_questions(table_height=TABLE_HEIGHT, json_storage=JSON_STORAGE):
+def get_sorted_questions(table_height=HTML_INFO["table_height"], json_storage=JSON_STORAGE):
     ''' returns a dictionary of (lists of dictionaries):
     the list given by dictionary key TOPIC contains <table_height> questions from topic TOPIC
     in sorted order by number TOTAL VOTES, including up & down

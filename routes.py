@@ -40,10 +40,10 @@ def load_user(user_id):
 
 @app.route('/')
 def hello():
-    sorted_qs = utils.get_sorted_questions(table_height=TABLE_HEIGHT, json_storage=JSON_STORAGE)
+    sorted_qs = utils.get_sorted_questions(table_height=HTML_INFO["table_height"], json_storage=JSON_STORAGE)
     form = ContactForm()
     username = flask_login.current_user.name if flask_login.current_user.is_authenticated else None
-    return render_template("index.html", topic_dict=sorted_qs, table_height = TABLE_HEIGHT, form=form, username = username)
+    return render_template("index.html", topic_dict=sorted_qs, html_info = HTML_INFO, form=form, username = username)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -71,16 +71,16 @@ def logout():
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    sorted_qs = utils.get_sorted_questions(table_height=TABLE_HEIGHT, json_storage=JSON_STORAGE)
+    sorted_qs = utils.get_sorted_questions(table_height=HTML_INFO["table_height"], json_storage=JSON_STORAGE)
     form = ContactForm()
 
     if request.method == 'GET':
-        return render_template("contact.html", topic_dict=sorted_qs, table_height = TABLE_HEIGHT, form=form)
+        return render_template("contact.html", topic_dict=sorted_qs, html_info = HTML_INFO, form=form)
 
     if request.method == 'POST':
         if form.validate() == False:
             flash("Error with form!")
-            return render_template("contact.html", topic_dict=sorted_qs, table_height = TABLE_HEIGHT, form=form)
+            return render_template("contact.html", topic_dict=sorted_qs, html_info = HTML_INFO, form=form)
 
         else:
           msg = Message(form.subject.data, sender='stephenpalbro@gmail.com', recipients=['nathan.otey@gmail.com','stephenpalbro@gmail.com'])
