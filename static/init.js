@@ -16,28 +16,17 @@ var TFY =
               <span id='" + q_id + "_upvotes' style='color:blue;'>" + upvotes + "</span> \
             </td>\
             <td class='voting_meter_td'>";
-    var fade_factor = 15;
-    if (upvotes > downvotes){
-      var green_perc = 100*upvotes / (upvotes + downvotes);
-      var lightgreen_perc = Math.round(green_perc + fade_factor).toString();
-      green_perc = Math.round(green_perc).toString();
-      var style_tag = "background-image: linear-gradient(90deg, green " + green_perc.slice(0,2) +"%, lightgreen " + lightgreen_perc.slice(0,2) +"%);";
-    }
-    else if (downvotes > upvotes){
-      var red_perc = 100*downvotes / (upvotes + downvotes);
-      var pink_perc = Math.round(red_perc - fade_factor).toString();
-      red_perc = Math.round(red_perc).toString();
-      var style_tag = "background-image: linear-gradient(90deg, pink " + pink_perc.slice(0,2) +"%, red " + red_perc.slice(0,2) +"%);";
-    }
-    else{
-      var style_tag = "background-image: linear-gradient(90deg, green 50%, red 50%);";
-    }
+    var fade_factor = 10;
+    perc_upvotes = parseFloat((100*(upvotes) / (upvotes + downvotes)).toPrecision(2));
+    lightly_colored_perc = perc_upvotes + fade_factor;
+    var colors = (upvotes >= downvotes) ? ["green", "lightgreen"] : ["red", "pink"];
+    var style_tag = "background-image: linear-gradient(90deg, " + colors[0] + " " + perc_upvotes.toString() +"%, " + colors[1] + " " + lightly_colored_perc.toString() + "%);";
     tableHTML += "\
               <meter id='" + q_id + "_meter'>\
                 <style>\
-                  #"+id+"_meter { \
-                    -webkit-appearance: none; \
-                    style_tag \
+                  #"+q_id+"_meter { \
+                    -webkit-appearance: none;" +
+                    style_tag + "\
                   }\
                 </style>\
               </meter> \

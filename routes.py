@@ -109,9 +109,9 @@ def _vote():
     category = ''.join([i for i in str(question_id) if not i.isdigit()])
     # direction = button_id_direction.split("_")[1]
 
-    new_votecount, total_votes = utils.save_vote(question_id, direction, JSON_STORAGE)
-
-    result = {(direction+"s"):new_votecount, 'id': question_id, 'newly_sorted_qs': None}
+    question, upvotes, downvotes = utils.save_vote(question_id, direction, JSON_STORAGE)
+    total_votes = upvotes + downvotes
+    result = {"question": question, "upvotes": upvotes , "downvotes": downvotes, 'id': question_id, 'newly_sorted_qs': None}
 
     if (votes_above and total_votes > votes_above) or (votes_below and total_votes < votes_below):
         result['newly_sorted_qs'] = utils.get_sorted_questions()

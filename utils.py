@@ -24,12 +24,13 @@ def save_vote(question_id, direction, json_path="topics.json"):
     with open(json_path, 'w') as fp:
         json.dump(topic_dict, fp)
 
-    return (topic_dict[category][question_id][direction+"s"], topic_dict[category][question_id]["upvotes"] + topic_dict[category][question_id]["downvotes"])
+    question_info = topic_dict[category][question_id]
+    return (question_info["question"], question_info["upvotes"], question_info["downvotes"]);
 
 def get_sorted_questions(table_height=HTML_INFO["table_height"], json_storage=JSON_STORAGE):
     ''' returns a dictionary of (lists of dictionaries):
     the list given by dictionary key TOPIC contains <table_height> questions from topic TOPIC
-    in sorted order by number TOTAL VOTES, including up & down
+    in sorted order by number of TOTAL VOTES, including up & down
     If there are not enough questions to fill a <table_height> length list,
     the list is filled with Nones
     '''

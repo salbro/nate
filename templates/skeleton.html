@@ -120,7 +120,7 @@
     <tr class="voting_table_questions_row">
       {% for topic in topic_dict %}
           <td "inner_topic_table_container">
-            <table class="inner_topic_table" id= {{ topic + "_" + i|string }}>
+            <table class="inner_topic_table" id= {{ topic + "_" + (i|string) }}>
               <tbody>
                 <tr>
                 {% set num_questions = topic_dict[topic]|length %}
@@ -145,20 +145,11 @@
                         <span id= {{ id + "_upvotes" }} style="color:blue;"> {{upvotes}} </span>
                       </td>
                       <td class="voting_meter_td">
-                        {% if upvotes > downvotes %}
-                          {% set green_perc = 100*upvotes / (upvotes + downvotes) %}
-                          {% set lightgreen_perc = (green_perc + 15) | int | string %}
-                          {% set green_perc = green_perc | int | string %}
-                          {% set style_tag = "background-image: linear-gradient(90deg, green " + green_perc[:2] +"%, lightgreen " + lightgreen_perc[:2] +"%);" %}
-                        {% elif downvotes > upvotes %}
-                          {% set red_perc = 100 - (100*downvotes / (upvotes + downvotes)) %}
-                          {% set pink_perc = (red_perc - 15) | int | string %}
-                          {% set red_perc = red_perc | int | string %}
-                          {% set style_tag = "background-image: linear-gradient(90deg, pink " + pink_perc[:2] +"%, red " + red_perc[:2] +"%);" %}
-                        {% else %}
-                          {% set style_tag = "background-image: linear-gradient(90deg, green 40%, red 60%);" %}
-                        {% endif %}
-
+                        {% set fade_factor = html_info["meter_fade"] %}
+                        {% set perc_upvotes = 100*upvotes / (upvotes + downvotes) %}
+                        {% set lightly_colored_perc = perc_upvotes + fade_factor %}
+                        {% set colors = ("green", "lightgreen") if upvotes >= downvotes else ("red", "pink") %}
+                        {% set style_tag = "background-image: linear-gradient(90deg, " + colors[0] + " " + (perc_upvotes | string)[:2] +"%, " + colors[1] + " " + (lightly_colored_perc | string)[:2] +"%);" %}
                         <meter id = {{ id + "_meter" }}>
                           <style>{{ "#" + id + "_meter" + "{ -webkit-appearance: none;" + style_tag + "}" }}
                           </style>
