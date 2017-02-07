@@ -2,4 +2,4 @@ db_credentials.json
 static/video/*
 tfy_db_credentials.py
 *.ipynb
-__pycache__/tfy_db_credentials.py
+__pycache__/tfy_db_credentials*
