@@ -1,3 +1,4 @@
 db_credentials.json
 static/video/*
 tfy_db_credentials.py
+*.ipynb
