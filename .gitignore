@@ -2,8 +2,8 @@
 /static/video/*
 /tfy_db_credentials.py
 /*.ipynb
-/__pycache__/tfy_db_credentials*
-/__pycache__
-/*checkpoint*/*
-/.ipynb_checkpoints/*
+__pycache__/tfy_db_credentials*
+__pycache__
+*checkpoint*/*
+.ipynb_checkpoints/*
 /DB.ipynb
