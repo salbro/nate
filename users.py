@@ -8,7 +8,7 @@ from database import Base
 
 
 class User(Base):
-    __tablename__ = 'users_testing_1'
+    __tablename__ = 'users'
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
     name = Column(String(50))
     password = Column(String(20))
