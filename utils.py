@@ -7,6 +7,8 @@ from flask_wtf import Form
 from wtforms.fields import TextField, HiddenField
 from wtforms import validators
 
+from models import *
+
 
 def save_vote(question_id, direction, json_path="topics.json"):
     '''
@@ -26,6 +28,14 @@ def save_vote(question_id, direction, json_path="topics.json"):
 
     question_info = topic_dict[category][question_id]
     return (question_info["question"], question_info["upvotes"], question_info["downvotes"]);
+
+def get_top_questions(engine, table_height=HTML_INFO["table_height"]):
+    db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+    Qs =  db_session.query(Question).order_by(desc(Question.n_upvotes + Question.n_downvotes)).limit(table_height).all()
+    db_session.close()
+    return [{"q_id": Q.q_id, "q_category": Q.q_category, "q_text": Q.q_text,
+            "n_upvotes": Q.n_upvotes, "n_downvotes": Q.n_downvotes} for Q in Qs]
+
 
 def get_sorted_questions(table_height=HTML_INFO["table_height"], json_storage=JSON_STORAGE):
     ''' returns a dictionary of (lists of dictionaries):
@@ -52,7 +62,6 @@ def get_sorted_questions(table_height=HTML_INFO["table_height"], json_storage=JS
     return sorted_by_votes
 
 def find_file():
-    print(os.name)
     if os.name == 'nt':
         return str("C:\\Users\\salbro\\email.json")
     elif os.name == 'posix':

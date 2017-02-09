@@ -8,7 +8,7 @@ from database import Base
 
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = 'devusers'
     id = Column(Integer, Sequence('user_id_seq'), primary_key=True)
     name = Column(String(50))
     password = Column(String(20))
@@ -32,13 +32,15 @@ class User(Base):
         This property should return True if the user is authenticated, i.e. they have provided valid credentials. (Only authenticated users will fulfill the criteria of login_required.)
         '''
         usr = User.query.filter(User.name==self.name, User.password==self.password).first()
+        print(usr)
         return (usr is not None)
 
     def is_active(self):
         '''
         This property should return True if this is an active user - in addition to being authenticated, they also have activated their account, not been suspended, or any condition your application has for rejecting an account. Inactive accounts may not log in (without being forced of course).
         '''
-        return True
+        usr = User.query.filter(User.name==self.name).first()
+        return (usr is not None)
 
     def is_anonymous(self):
         '''

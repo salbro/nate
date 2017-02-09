@@ -8,8 +8,6 @@ from flask_mail import Message, Mail
 from flask import Flask, url_for, request, render_template, redirect, jsonify, flash, session
 import flask_login
 import users
-from database import db_session
-
 
 app = Flask(__name__)
 app.secret_key = 'development key'
@@ -29,31 +27,44 @@ mail.init_app(app)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 ############## MAIL ####################
+
+########## SQL ############
+from database import engine
+########## SQL ############
+
+
 @app.teardown_appcontext
 def shutdown_session(exception=None):
-    db_session.remove()
+    try:
+        db_session.remove()
+    except:
+        pass
+
+@app.teardown_appcontext
+def dispose_engine(exception=None):
+    try:
+        engine.dispose()
+    except:
+        pass
 
 
 @login_manager.user_loader
 def load_user(user_id):
-    return users.User.query.get(int(user_id)) ## query.get provided by sqlalchemy?
+    return users.User.query.get(int(user_id))
 
 @app.route('/')
 def hello():
-    sorted_qs = utils.get_sorted_questions(table_height=HTML_INFO["table_height"], json_storage=JSON_STORAGE)
+    sorted_qs = utils.get_top_questions(engine)
     form = ContactForm()
     username = flask_login.current_user.name if flask_login.current_user.is_authenticated else None
     return render_template("index.html", topic_dict=sorted_qs, html_info = HTML_INFO, form=form, username = username)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
     form = LoginForm()
-
     if request.method == 'POST':
         if form.validate():
             flask_login.login_user(form.user)
-            print(form.user)
             next = request.args.get('next')
             # is_safe_url should check if the url is safe for redirects.
             # See http://flask.pocoo.org/snippets/62/ for an example.
@@ -71,7 +82,7 @@ def logout():
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    sorted_qs = utils.get_sorted_questions(table_height=HTML_INFO["table_height"], json_storage=JSON_STORAGE)
+    sorted_qs = utils.get_top_questions(engine)
     form = ContactForm()
 
     if request.method == 'GET':
@@ -114,6 +125,6 @@ def _vote():
     result = {"question": question, "upvotes": upvotes , "downvotes": downvotes, 'id': question_id, 'newly_sorted_qs': None}
 
     if (votes_above and total_votes > votes_above) or (votes_below and total_votes < votes_below):
-        result['newly_sorted_qs'] = utils.get_sorted_questions()
+        result['newly_sorted_qs'] = utils.get_top_questions(engine)
 
     return jsonify(result)
