@@ -10,31 +10,39 @@ from wtforms import validators
 from models import *
 
 
-def save_vote(question_id, direction, json_path="topics.json"):
+def save_vote(db_session, question_id, direction, engine=None):
     '''
-    description: saves an upvote or downvote into the json dictionary
+    description: saves an upvote or downvote into the database
     returns: the new number of upvotes or downvotes for the question passed in
     '''
-    direction_key = direction + "s"
-    with open(json_path, 'r') as fp:
-        topic_dict = json.load(fp)
+    if db_session is None and engine is not None:
+        db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
-    # vital that ids be digits only. picks 'Morality' out of 'Morality148'
-    category = ''.join([i for i in str(question_id) if not i.isdigit()])
-    topic_dict[category][question_id][direction_key] += 1
+    Q = db_session.query(Question).filter_by(q_id=question_id).first()
 
-    with open(json_path, 'w') as fp:
-        json.dump(topic_dict, fp)
+    if direction=="up":
+        Q.upvote()
+    elif direction=="down":
+        Q.downvote()
 
-    question_info = topic_dict[category][question_id]
-    return (question_info["question"], question_info["upvotes"], question_info["downvotes"]);
+    db_session.commit()
+    db_session.close()
+
+    return Q
 
 def get_top_questions(engine, table_height=HTML_INFO["table_height"]):
+    top_qs = {}
     db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
-    Qs =  db_session.query(Question).order_by(desc(Question.n_upvotes + Question.n_downvotes)).limit(table_height).all()
+    for topic in TOPICS:
+        Qs =  db_session.query(Question).filter_by(q_category=topic).order_by(desc(Question.n_upvotes + Question.n_downvotes)).limit(table_height).all()
+        n_found = len(Qs)
+        top_qs[topic] = [{"q_id": Q.q_id, "q_category": Q.q_category, "q_text": Q.q_text,
+                "n_upvotes": Q.n_upvotes, "n_downvotes": Q.n_downvotes} for Q in Qs]
+        for _ in range(table_height - n_found):
+            top_qs[topic].append(None)
+
     db_session.close()
-    return [{"q_id": Q.q_id, "q_category": Q.q_category, "q_text": Q.q_text,
-            "n_upvotes": Q.n_upvotes, "n_downvotes": Q.n_downvotes} for Q in Qs]
+    return top_qs
 
 
 def get_sorted_questions(table_height=HTML_INFO["table_height"], json_storage=JSON_STORAGE):

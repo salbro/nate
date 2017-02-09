@@ -1,13 +1,11 @@
 from constants import *
-import data
-import operator
 import json
+import operator
 import utils
-from forms import ContactForm, LoginForm
 from flask_mail import Message, Mail
 from flask import Flask, url_for, request, render_template, redirect, jsonify, flash, session
 import flask_login
-import users
+from models import engine, User, LoginForm, ContactForm, Question, Vote
 
 app = Flask(__name__)
 app.secret_key = 'development key'
@@ -28,10 +26,6 @@ login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 ############## MAIL ####################
 
-########## SQL ############
-from database import engine
-########## SQL ############
-
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):
@@ -50,14 +44,14 @@ def dispose_engine(exception=None):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return users.User.query.get(int(user_id))
+    return User.query.get(int(user_id))
 
 @app.route('/')
 def hello():
-    sorted_qs = utils.get_top_questions(engine)
+    top_question_table = utils.get_top_questions(engine)
     form = ContactForm()
     username = flask_login.current_user.name if flask_login.current_user.is_authenticated else None
-    return render_template("index.html", topic_dict=sorted_qs, html_info = HTML_INFO, form=form, username = username)
+    return render_template("index.html", top_question_table=top_question_table, html_info = HTML_INFO, form=form, username = username)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -82,16 +76,16 @@ def logout():
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    sorted_qs = utils.get_top_questions(engine)
+    top_question_table = utils.get_top_questions(engine)
     form = ContactForm()
 
     if request.method == 'GET':
-        return render_template("contact.html", topic_dict=sorted_qs, html_info = HTML_INFO, form=form)
+        return render_template("contact.html", top_question_table=top_question_table, html_info = HTML_INFO, form=form)
 
     if request.method == 'POST':
         if form.validate() == False:
             flash("Error with form!")
-            return render_template("contact.html", topic_dict=sorted_qs, html_info = HTML_INFO, form=form)
+            return render_template("contact.html", top_question_table=top_question_table, html_info = HTML_INFO, form=form)
 
         else:
           msg = Message(form.subject.data, sender='stephenpalbro@gmail.com', recipients=['nathan.otey@gmail.com','stephenpalbro@gmail.com'])
@@ -107,24 +101,22 @@ def contact():
 
 @app.route('/_vote/', methods=['GET'])
 def _vote():
+    db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
     question_id = request.args.get("button_id")
     direction = request.args.get("button_direction")
-    # button_id_direction = request.args.get('button_id_direction', 0, type=str)
-    # question_id = button_id_direction.split("_")[0]
-    isTopQuestion = "top" in str(request.args.get("button_class"))
+
     votes_above = None if request.args.get("votes_above") == '' else int(request.args.get("votes_above"))
     votes_below = None if request.args.get("votes_below") == '' else int(request.args.get("votes_below"))
 
-    # vital that ids be digits only. picks 'Morality' out of 'Morality148'
-    category = ''.join([i for i in str(question_id) if not i.isdigit()])
-    # direction = button_id_direction.split("_")[1]
-
-    question, upvotes, downvotes = utils.save_vote(question_id, direction, JSON_STORAGE)
-    total_votes = upvotes + downvotes
-    result = {"question": question, "upvotes": upvotes , "downvotes": downvotes, 'id': question_id, 'newly_sorted_qs': None}
+    Q = utils.save_vote(db_session, question_id, direction)
+    total_votes = Q.n_upvotes + Q.n_downvotes
+    result = {"question": Q.q_text, "upvotes": Q.n_upvotes, "downvotes": Q.n_downvotes, 'id': Q.q_id, 'newly_sorted_qs': None}
 
     if (votes_above and total_votes > votes_above) or (votes_below and total_votes < votes_below):
         result['newly_sorted_qs'] = utils.get_top_questions(engine)
 
+    db_session.commit()
+    db_session.close()
+    
     return jsonify(result)

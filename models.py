@@ -1,18 +1,13 @@
 from flask_wtf import Form
-from wtforms.fields import TextField, TextAreaField, BooleanField, SubmitField
-from wtforms import validators
-
-from flask_wtf import Form
-from wtforms.fields import TextField, PasswordField, SubmitField
+from wtforms.fields import TextField, TextAreaField, BooleanField, SubmitField, PasswordField
 from wtforms import validators
 
 from sqlalchemy import *
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
-from tfy_db_credentials import *
-# from database import Base
 
+from tfy_db_credentials import tfy_db_url
 
 engine = create_engine(tfy_db_url, convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
@@ -132,3 +127,27 @@ class Question(Base):
 
     def downvote(self):
         self.n_downvotes += 1
+
+
+class Vote(Base):
+    __tablename__ = 'devvotelog'
+    vote_id = Column(Integer, Sequence('vote_id_seq'), primary_key=True)
+    question_id = Column(Integer)
+    vote_direction = Column(String(4)) # "up" or "down" ... mySQL does not support check constraints
+    user_id = Column(Integer)
+    registered_on = Column('registered_on', DateTime)
+
+    def __init__(self, question_id, vote_direction, user_id):
+        self.question_id = question_id
+        self.vote_direction = vote_direction
+        self.user_id = user_id
+        self.registered_on = datetime.utcnow()
+
+    def __repr__(self):
+        return "<Vote(user_id '%s' '%s'voted question_id '%s' at '%s')>" % (
+                                self.user_id, self.vote_direction, self.question_id, self.registered_on)
+
+    # returns True if this user has voted on this question before
+    def user_is_double_voting(self):
+        vote = Vote.query.filter(Vote.user_id==self.user_id, Vote.question_id==self.question_id).first()
+        return (vote is not None)

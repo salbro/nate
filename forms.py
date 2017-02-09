@@ -5,7 +5,7 @@ from wtforms import validators
 from flask_wtf import Form
 from wtforms.fields import TextField, PasswordField, SubmitField
 from wtforms import validators
-from users import User
+from models import User
 
 
 class LoginForm(Form):
