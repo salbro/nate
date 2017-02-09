@@ -6,6 +6,8 @@ from flask_mail import Message, Mail
 from flask import Flask, url_for, request, render_template, redirect, jsonify, flash, session
 import flask_login
 from models import engine, User, LoginForm, ContactForm, Question, Vote
+from sqlalchemy.orm import scoped_session, sessionmaker
+
 
 app = Flask(__name__)
 app.secret_key = 'development key'
@@ -103,20 +105,21 @@ def contact():
 def _vote():
     db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
-    question_id = request.args.get("button_id")
-    direction = request.args.get("button_direction")
+    question_id = request.args.get("question_id")
+    direction = request.args.get("vote_direction")
 
     votes_above = None if request.args.get("votes_above") == '' else int(request.args.get("votes_above"))
     votes_below = None if request.args.get("votes_below") == '' else int(request.args.get("votes_below"))
-
+    
     Q = utils.save_vote(db_session, question_id, direction)
+    print(direction)
     total_votes = Q.n_upvotes + Q.n_downvotes
-    result = {"question": Q.q_text, "upvotes": Q.n_upvotes, "downvotes": Q.n_downvotes, 'id': Q.q_id, 'newly_sorted_qs': None}
+    result = {"question_text": Q.q_text, "upvotes": Q.n_upvotes, "downvotes": Q.n_downvotes, "question_id": Q.q_id, 'newly_sorted_qs': None}
 
     if (votes_above and total_votes > votes_above) or (votes_below and total_votes < votes_below):
         result['newly_sorted_qs'] = utils.get_top_questions(engine)
 
     db_session.commit()
     db_session.close()
-    
+
     return jsonify(result)

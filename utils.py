@@ -26,7 +26,6 @@ def save_vote(db_session, question_id, direction, engine=None):
         Q.downvote()
 
     db_session.commit()
-    db_session.close()
 
     return Q
 
