@@ -5,9 +5,11 @@ import utils
 from flask_mail import Message, Mail
 from flask import Flask, url_for, request, render_template, redirect, jsonify, flash, session
 import flask_login
-from models import engine, User, LoginForm, ContactForm, Question, Vote
+from models import User, LoginForm, ContactForm, Question, Vote
 from sqlalchemy.orm import scoped_session, sessionmaker
-
+from sqlalchemy import create_engine
+from tfy_db_credentials import tfy_db_url
+# from database import SessionMaker
 
 app = Flask(__name__)
 app.secret_key = 'development key'
@@ -29,31 +31,25 @@ login_manager.init_app(app)
 ############## MAIL ####################
 
 
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    try:
-        db_session.remove()
-    except:
-        pass
-
-@app.teardown_appcontext
-def dispose_engine(exception=None):
-    try:
-        engine.dispose()
-    except:
-        pass
-
-
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    engine = create_engine(tfy_db_url, convert_unicode=True)
+    SessionMaker = sessionmaker(bind=engine)
+    session = SessionMaker()
+    usr = session.query(User).filter(User.id==user_id).first()
+    session.close()
+    engine.dispose()
+    return usr
 
 @app.route('/')
 def hello():
-    top_question_table = utils.get_top_questions(engine)
-    form = ContactForm()
-    username = flask_login.current_user.name if flask_login.current_user.is_authenticated else None
-    return render_template("index.html", top_question_table=top_question_table, html_info = HTML_INFO, form=form, username = username)
+    if flask_login.current_user.is_authenticated:
+        # top_question_table = utils.get_top_questions(SessionMaker)
+        top_question_table = utils.get_top_questions()
+        username = flask_login.current_user.name
+        return render_template("index.html", top_question_table=top_question_table, html_info = HTML_INFO, form=ContactForm(), username = username)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -71,6 +67,21 @@ def login():
 
     return render_template('login.html', form=form)
 
+@app.route('/login_check', methods=['GET'])
+def login_check():
+    username = request.args.get("username")
+    password = request.args.get("password")
+
+    engine = create_engine(tfy_db_url, convert_unicode=True)
+    SessionMaker = sessionmaker(bind=engine)
+    session = SessionMaker()
+    usr = session.query(User).filter(User.name==username, User.password==password).first()
+
+    session.close()
+    engine.dispose()
+
+    return jsonify({"word": "hello"})
+
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     flask_login.logout_user()
@@ -78,7 +89,8 @@ def logout():
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
-    top_question_table = utils.get_top_questions(engine)
+    # top_question_table = utils.get_top_questions(SessionMaker)
+    top_question_table = utils.get_top_questions()
     form = ContactForm()
 
     if request.method == 'GET':
@@ -103,23 +115,43 @@ def contact():
 
 @app.route('/_vote/', methods=['GET'])
 def _vote():
-    db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+    # session = SessionMaker()
+    engine = create_engine(tfy_db_url, convert_unicode=True)
+    SessionMaker = sessionmaker(bind=engine)
+    session = SessionMaker()
 
     question_id = request.args.get("question_id")
     direction = request.args.get("vote_direction")
 
     votes_above = None if request.args.get("votes_above") == '' else int(request.args.get("votes_above"))
     votes_below = None if request.args.get("votes_below") == '' else int(request.args.get("votes_below"))
-    
-    Q = utils.save_vote(db_session, question_id, direction)
-    print(direction)
+
+    # Q = utils.save_vote(session, question_id, direction)
+    Q = utils.save_vote(session, question_id, direction, user=flask_login.current_user)
+
     total_votes = Q.n_upvotes + Q.n_downvotes
     result = {"question_text": Q.q_text, "upvotes": Q.n_upvotes, "downvotes": Q.n_downvotes, "question_id": Q.q_id, 'newly_sorted_qs': None}
 
     if (votes_above and total_votes > votes_above) or (votes_below and total_votes < votes_below):
-        result['newly_sorted_qs'] = utils.get_top_questions(engine)
+        # result['newly_sorted_qs'] = utils.get_top_questions(SessionMaker)
+        result['newly_sorted_qs'] = utils.get_top_questions()
 
-    db_session.commit()
-    db_session.close()
+    session.close()
+    engine.dispose()
 
     return jsonify(result)
+
+
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    try:
+        db_session.remove()
+    except:
+        pass
+
+@app.teardown_appcontext
+def dispose_engine(exception=None):
+    try:
+        engine.dispose()
+    except:
+        pass

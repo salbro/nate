@@ -17,11 +17,16 @@ var TFY =
               <span id='q_" + q_id + "_upvotes' style='color:blue;'>" + upvotes + "</span> \
             </td>\
             <td class='voting_meter_td'>";
+    var colors = (upvotes >= downvotes) ? ["green", "lightgreen"] : ["red", "pink"];
     var fade_factor = 10;
     perc_upvotes = parseFloat((100*(upvotes) / (upvotes + downvotes)).toPrecision(2));
-    lightly_colored_perc = perc_upvotes + fade_factor;
-    var colors = (upvotes >= downvotes) ? ["green", "lightgreen"] : ["red", "pink"];
-    var style_tag = "background-image: linear-gradient(90deg, " + colors[0] + " " + perc_upvotes.toString() +"%, " + colors[1] + " " + lightly_colored_perc.toString() + "%);";
+    if (perc_upvotes === 100.0){
+      var style_tag = "background-color: " + colors[0] + ";";
+    }
+    else{
+      lightly_colored_perc = perc_upvotes + fade_factor;
+      var style_tag = "background-image: linear-gradient(90deg, " + colors[0] + " " + perc_upvotes.toString() +"%, " + colors[1] + " " + lightly_colored_perc.toString() + "%);";
+    }
     tableHTML += "\
               <meter id='q_" + q_id + "_meter'>\
                 <style>\

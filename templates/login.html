@@ -1,24 +1,59 @@
-<form method='POST' action= {{url_for('login')}} >
-  {% for username_error in form.username.errors %}
-    {{ username_error }}
-  {% endfor %}
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<META HTTP-EQUIV="Pragma" CONTENT="no-cache">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href= {{ url_for('static', filename='css/login-styles.css') }}/>
+  <title>Think For Yourself - Login</title>
+  <script type=text/javascript>
+    $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+  </script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>
+    window.jQuery || document.write('<script src="{{
+      url_for('static', filename='jquery.js') }}">\x3C/script>')
+  </script>
 
-  {% for password_error in form.password.errors %}
-    {{ password_error }}
-  {% endfor %}
-  <div class="contact_input_wrapper">
-    <!-- {{form.hidden_tag()}} -->
-    <label>{{form.username.label}}</label>
-    <br>
-    {{form.username}}
+</head>
+<header></header>
+<body id="login-body">
+  <!-- <img src= {{ url_for('static', filename='img/natebri.jpg') }}/> -->
+  <div id="form-container">
+    <div id="welcome">
+      <img src= {{ url_for('static', filename='img/logicHeroWhite.png') }}/>
+    </div>
+    <br> <!-- REMOVE?????? -->
+    <div id="form-div">
+      <form method='POST' action= {{url_for('login')}} >
+        <div>
+          {{form.hidden_tag()}}
+          <!-- <label>{{form.username.label}}</label> -->
+          <br>
+          {{form.username}}
+          {% for username_error in form.username.errors %}
+            <br> <span class="error-span"> {{ username_error }} </span>
+          {% endfor %}
+        </div>
+        <div>
+          <!-- <label>{{form.password.label}}</label> -->
+          <br>
+          {{form.password}}
+          {% for password_error in form.password.errors %}
+              <br> <span class="error-span"> {{ password_error }} </span>
+            {% endfor %}
+        </div>
+        <br>
+        <div>
+          {{form.submit}}
+        </div>
+      </form>
+    </div>
   </div>
-  <br>
-  <div class="contact_input_wrapper">
-    <label>{{form.password.label}}</label>
-    <br>
-    {{form.password}}
-  </div>
-  <div class="contact_input_wrapper">
-    {{form.submit}}
-  </div>
-</form>
+
+
+
+</body>
+
+</html>

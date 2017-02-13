@@ -6,41 +6,52 @@ from flask import request, url_for, redirect
 from flask_wtf import Form
 from wtforms.fields import TextField, HiddenField
 from wtforms import validators
+from sqlalchemy.orm import sessionmaker
+from tfy_db_credentials import tfy_db_url
 
 from models import *
 
 
-def save_vote(db_session, question_id, direction, engine=None):
+# def save_vote(session, question_id, direction, engine=None):
+def save_vote(session, question_id, direction, user=None):
     '''
     description: saves an upvote or downvote into the database
     returns: the new number of upvotes or downvotes for the question passed in
     '''
-    if db_session is None and engine is not None:
-        db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 
-    Q = db_session.query(Question).filter_by(q_id=question_id).first()
+    Q = session.query(Question).filter_by(q_id=question_id).first()
 
     if direction=="up":
         Q.upvote()
     elif direction=="down":
         Q.downvote()
 
-    db_session.commit()
+    if user:
+        vote = Vote(question_id, direction, user.id)
+        print(vote)
+        session.add(vote)
+
+    session.commit()
 
     return Q
 
-def get_top_questions(engine, table_height=HTML_INFO["table_height"]):
+# def get_top_questions(SessionMaker, table_height=HTML_INFO["table_height"]):
+def get_top_questions(table_height=HTML_INFO["table_height"]):
     top_qs = {}
-    db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+    engine = create_engine(tfy_db_url, convert_unicode=True)
+    SessionMaker = sessionmaker(bind=engine)
+    session = SessionMaker()
     for topic in TOPICS:
-        Qs =  db_session.query(Question).filter_by(q_category=topic).order_by(desc(Question.n_upvotes + Question.n_downvotes)).limit(table_height).all()
+        Qs =  session.query(Question).filter_by(q_category=topic).order_by(desc(Question.n_upvotes + Question.n_downvotes)).limit(table_height).all()
         n_found = len(Qs)
         top_qs[topic] = [{"q_id": Q.q_id, "q_category": Q.q_category, "q_text": Q.q_text,
                 "n_upvotes": Q.n_upvotes, "n_downvotes": Q.n_downvotes} for Q in Qs]
         for _ in range(table_height - n_found):
             top_qs[topic].append(None)
 
-    db_session.close()
+    session.close()
+    engine.dispose()
+
     return top_qs
 
 

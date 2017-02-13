@@ -30,10 +30,12 @@ jQuery(document).ready(function() {
           votes_above: votesAbove,
           votes_below: votesBelow
         },
+          /* the jsonified result */
           function(data) {
             /* newly_sorted_qs: questions passed back from server if a change
              in order is necessary */
             if(data['newly_sorted_qs']){
+
               for (var i = 0; i < data['newly_sorted_qs'][question_category].length; i++){
                 var question_info = data['newly_sorted_qs'][question_category][i];
                 if (question_info){

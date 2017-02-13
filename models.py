@@ -9,12 +9,8 @@ from datetime import datetime
 
 from tfy_db_credentials import tfy_db_url
 
-engine = create_engine(tfy_db_url, convert_unicode=True)
-db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+# from database import SessionMaker
 Base = declarative_base()
-Base.query = db_session.query_property()
-db_session.close()
-
 
 class User(Base):
     __tablename__ = 'devusers'
@@ -32,23 +28,30 @@ class User(Base):
         return "<User(name=%s, password=%s)>" % (
                                 self.name, self.password)
 
-    def get_password(self):
-        usr = User.query.filter(User.name==self.name).first()
-        return usr.password if usr else None
-
     def is_authenticated(self):
         '''
         This property should return True if the user is authenticated, i.e. they have provided valid credentials. (Only authenticated users will fulfill the criteria of login_required.)
         '''
-        usr = User.query.filter(User.name==self.name, User.password==self.password).first()
-        print(usr)
+        engine = create_engine(tfy_db_url, convert_unicode=True)
+        SessionMaker = sessionmaker(bind=engine)
+        session = SessionMaker()
+        usr = session.query(User).filter(User.name==self.name, User.password==self.password).first()
+        session.close()
+        engine.dispose()
         return (usr is not None)
+        # usr = User.query.filter(User.name==self.name, User.password==self.password).first()
+        # return (usr is not None)
 
     def is_active(self):
         '''
         This property should return True if this is an active user - in addition to being authenticated, they also have activated their account, not been suspended, or any condition your application has for rejecting an account. Inactive accounts may not log in (without being forced of course).
         '''
-        usr = User.query.filter(User.name==self.name).first()
+        engine = create_engine(tfy_db_url, convert_unicode=True)
+        SessionMaker = sessionmaker(bind=engine)
+        session = SessionMaker()
+        usr = session.query(User).filter(User.name==self.name).first()
+        session.close()
+        engine.dispose()
         return (usr is not None)
 
     def is_anonymous(self):
@@ -61,14 +64,20 @@ class User(Base):
         '''
         This method must return a unicode that uniquely identifies this user, and can be used to load the user from the user_loader callback. Note that this must be a unicode - if the ID is natively an int or some other type, you will need to convert it to unicode.
         '''
-        usr = User.query.filter(User.name==self.name, User.password==self.password).first()
+
+        engine = create_engine(tfy_db_url, convert_unicode=True)
+        SessionMaker = sessionmaker(bind=engine)
+        session = SessionMaker()
+        usr = session.query(User).filter(User.name==self.name, User.password==self.password).first()
+        session.close()
+        engine.dispose()
         return usr.id if usr else None
 
 
 class LoginForm(Form):
-    username = TextField('Username', [validators.Required()])
-    password = PasswordField('Password', [validators.Required()])
-    submit = SubmitField("Send")
+    username = TextField('Username', [validators.Required()], render_kw={"placeholder": "Username (email)"}) #render_kw={"placeholder": "Username (email)"}
+    password = PasswordField('Password', [validators.Required()], render_kw={"placeholder": "Password"})
+    submit = SubmitField("Log In")
 
     def __init__(self, *args, **kwargs):
         Form.__init__(self, *args, **kwargs)
@@ -144,7 +153,7 @@ class Vote(Base):
         self.registered_on = datetime.utcnow()
 
     def __repr__(self):
-        return "<Vote(user_id '%s' '%s'voted question_id '%s' at '%s')>" % (
+        return "<Vote(user_id %s %svoted question_id %s at %s)>" % (
                                 self.user_id, self.vote_direction, self.question_id, self.registered_on)
 
     # returns True if this user has voted on this question before
