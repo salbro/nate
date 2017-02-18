@@ -432,13 +432,17 @@ td.founder_name{
   font-weight: bold;
 }
 
-.team_paragraph{
+#team_table p{
   text-align: left;
+  font-family: serif;
+  font-size: 1em;
+  font-weight: 300;
+  color: #353535;
 }
 
 /* __________________ contact us _________________ */
 #contact{
-  background-color: black;
+  background-color: #353535;
   padding: 2% 0 2% 0;
 }
 
