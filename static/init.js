@@ -1,4 +1,15 @@
-
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn') && !event.target.matches('.dropdown-content')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
 // GLOBAL TFY
 var TFY =
 {
@@ -47,5 +58,9 @@ var TFY =
 
     tableHTML += "</td></tr></tbody></table>";
     return tableHTML;
+  },
+
+  dropdown: function(){
+    document.getElementById("drop-down-menu").classList.toggle("show");
   }
 };

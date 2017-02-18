@@ -28,23 +28,53 @@
 
 <body>
 
-<nav>
-  {% if username %}
-  Welcome, {{username}}!
-  <a href= {{ url_for('logout')}}>Logout</a>
-  {% else %}
-  <a href= {{ url_for('login')}}>Login</a>
-  {% endif %}
-</nav>
-
+<div id="landing">
 <section id="top_logos">
+  <nav>
+    {% if username %}
+    <div id="dropdown-container">
+      <button onclick=TFY.dropdown() id="menu-icon" href=# class="fa fa-bars fa-lg dropbtn"></button>
+      <div id="drop-down-menu" class="dropdown-content">
+        <a href= {{ url_for('logout')}}>Logout</a>
+        <a href="#contact">Contact Us</a>
+      </div>
+      {% else %}
+      <a href= {{ url_for('login')}}>Login</a>
+      {% endif %}
+    </div>
+  </nav>
   <img id="logo_top" src= {{ url_for('static', filename='img/tfy.png') }}></img>
-  <img id="logic_hero_icon" src= {{ url_for('static', filename='img/logic_hero_icon.png') }}> </img>
+  <img id="creators" src= {{ url_for('static', filename='img/creators_transparent.png') }}> </img>
 </section>
 
 <section id="big_photo">
-  <img src= {{ url_for('static', filename='img/natebri.jpg') }}/>
+  <div>
+    <span>Think more clearly.</span>
+    <br><br>
+    <span>Express yourself better.</span>
+    <br><br>
+    <span>Have more satisfying interactions.</span>
+  </div>
+  <!-- <nav>
+    {% if username %}
+    <div id="dropdown-container">
+      <button onclick=TFY.dropdown() id="menu-icon" href=# class="fa fa-bars fa-lg dropbtn"></button>
+      <div id="drop-down-menu" class="dropdown-content">
+        <a href= {{ url_for('logout')}}>Logout</a>
+        <a href="#contact">Contact Us</a>
+      </div>
+      {% else %}
+      <a href= {{ url_for('login')}}>Login</a>
+      {% endif %}
+    </div>
+  </nav>
+  <div id="logo-container">
+    <img id="logo_top" src= {{ url_for('static', filename='img/logicHeroWhite.png') }}/>
+    <img id="logic_hero_icon" src= {{ url_for('static', filename='img/creators_transparent.png') }}> </img>
+  </div> -->
 </section>
+</div>
+
 
 <section id="description">
   <span>We create fun tools that unlock the power of logic and build independent thinking skills.</span>
@@ -56,8 +86,7 @@
     <tr>
       <td id="logic_hero_description">
         <div> <!-- USE THIS DIV -->
-          <h1>Logic Hero</h1>
-          <br>
+          <h1><img id="logic_hero_TM_icon" src= {{ url_for('static', filename='img/logicheroTM_final.png') }}/></h1>
           <span>Choose your topics. Battle the sheep. </span>
           <span><strong>Win with logic.</strong></span>
           <span>Our species is counting on you.</span>
@@ -69,6 +98,7 @@
             <br>
             <li class="logic_hero_list_description"> Visualize the logic inherent in our conversations </li>
           </ul>
+          <br><br>
         </div>
       </td>
       <td id="logic_hero_video_td" class="split_table_image_wrapper">
@@ -217,19 +247,19 @@
 <table id="team_table">
   <caption>Our Team</caption>
   <tr>
-    <td><img id="founder_photo" src= {{ url_for('static', filename='img/brian.jpg') }}/></td>
-    <td><img id="founder_photo" src= {{ url_for('static', filename='img/nate.jpg') }}/></td>
-    <td><img id="founder_photo" src= {{ url_for('static', filename='img/anne.jpg') }}/></td>
+    <td><img class="founder_photo" src= {{ url_for('static', filename='img/brian.jpg') }}/></td>
+    <td><img class="founder_photo" src= {{ url_for('static', filename='img/nate.jpg') }}/></td>
+    <td><img class="founder_photo" src= {{ url_for('static', filename='img/anne.jpg') }}/></td>
   </tr>
   <tr>
-    <td id="founder_name"><strong>Brian Wood</strong></td>
-    <td id="founder_name"><strong>Nathan Otey</strong></td>
-    <td id="founder_name"><strong>Anne Sanderson</strong></td>
+    <td class="founder_name"><strong>Brian Wood</strong></td>
+    <td class="founder_name"><strong>Nathan Otey</strong></td>
+    <td class="founder_name"><strong>Anne Sanderson</strong></td>
   </tr>
   <tr>
-    <td><p>Brian Wood is a co-founder and CEO of Think For Yourself. He received his J.D. in 2012 from Harvard Law School and graduated summa cum laude in 2009 from Georgetown University with a B.A. in honors philosophy and government. Grateful for the opportunities he had, Brian has a passion for ensuring everyone has access to the complete educations they deserve.</p></td>
-    <td><p>Nate Otey is a co-founder and COO of Think For Yourself. He studied philosophy and mathematics at Harvard (cum laude 2015). Since 2013 he has taught high school students to map arguments in classrooms, internships, and summer courses. Nate also conducts workshops on controversial topics in philosophy, bioethics, and current events. He dreams of a more logical world.</p></td>
-    <td><p>Anne Sanderson is a consultant working with Think For Yourself. She has over 20 years experience teaching in Boston schools and is the co-director of ThinkerAnalytix, a nonprofit dedicated to reasoning education for high school students.</p></td>
+    <td><p class="team_paragraph">Brian Wood is a co-founder and CEO of Think For Yourself. He received his J.D. in 2012 from Harvard Law School and graduated summa cum laude in 2009 from Georgetown University with a B.A. in honors philosophy and government. Grateful for the opportunities he had, Brian has a passion for ensuring everyone has access to the complete educations they deserve.</p></td>
+    <td><p class="team_paragraph">Nate Otey is a co-founder and COO of Think For Yourself. He studied philosophy and mathematics at Harvard (cum laude 2015). Since 2013 he has taught high school students to map arguments in classrooms, internships, and summer courses. Nate also conducts workshops on controversial topics in philosophy, bioethics, and current events. He dreams of a more logical world.</p></td>
+    <td><p class="team_paragraph">Anne Sanderson is a consultant working with Think For Yourself. She has over 20 years experience teaching in Boston schools and is the co-director of ThinkerAnalytix, a nonprofit dedicated to reasoning education for high school students.</p></td>
   </tr>
 </table>
 </section>
@@ -238,57 +268,49 @@
   {%block contact_script%}{%endblock%}
   <table class="split_table">
     <tr>
-      <td>
+      <td id="contact_message_td">
         <h1> Contact Us</h1>
         <p> We would love to hear from you.</p>
         <p> If you share our vision of a more logical world, please help us bring it to life! </p>
         <div id="tfy_footer_logo_wrapper">
-          <img id="tfy_footer_logo" src= {{ url_for('static', filename='img/tfy.png') }}></image>
+          <img id="tfy_footer_logo" src= {{ url_for('static', filename='img/logicHeroWhite.png') }}></image>
         </div>
-        <small>© 2017 Think For Yourself. All usage of this site is subject to our Terms of Use.</small>
+        <small>© 2017 Think For Yourself.</small>
       </td>
-      <td>
-        {% for message in form.name.errors %}
-          <div class="flash">{{ message }}</div>
-        {% endfor %}
-
-        {% for message in form.email.errors %}
-          <div class="flash">{{ message }}</div>
-        {% endfor %}
-
-        {% for message in form.subject.errors %}
-          <div class="flash">{{ message }}</div>
-        {% endfor %}
-
-        {% for message in form.message.errors %}
-          <div class="flash">{{ message }}</div>
-        {% endfor %}
+      <td id="contact_form_td">
         <form method='POST' action= {{url_for('contact')}} >
           <div class="contact_input_wrapper">
             {{form.hidden_tag()}}
             <label>{{form.name.label}}</label>
+            {% for message in form.name.errors %}
+              <div class="flash">{{ message }}</div>
+            {% endfor %}
             <br>
             {{form.name}}
           </div>
           <br>
           <div class="contact_input_wrapper">
             <label>{{form.email.label}}</label>
+            {% for message in form.email.errors %}
+              <div class="flash">{{ message }}</div>
+            {% endfor %}
             <br>
             {{form.email}}
           </div>
           <br>
           <div class="contact_input_wrapper">
             <label>{{form.subject.label}}:</label>
+            {% for message in form.subject.errors %}
+              <div class="flash">{{ message }}</div>
+            {% endfor %}
             <br>
             {{form.subject}}
           </div>
           <br>
           <div class="contact_input_wrapper">
             <label>{{form.message.label}}</label>
-            <br>
             {{form.message}}
           </div>
-          <br>
           <div class="contact_input_wrapper">
             {{form.submit}}
           </div>

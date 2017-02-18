@@ -94,7 +94,7 @@ def contact():
     form = ContactForm()
 
     if request.method == 'GET':
-        return render_template("contact.html", top_question_table=top_question_table, html_info = HTML_INFO, form=form)
+        return redirect(url_for('hello'))
 
     if request.method == 'POST':
         if form.validate() == False:

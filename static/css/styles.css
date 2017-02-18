@@ -13,30 +13,100 @@ td{
   word-wrap: break-word;
 }
 
-section #top_logos{
-  height: 20em;
+nav{
+  position: absolute;
+  margin: 1% 0 0 1%;
+}
+
+#dropdown-container{
+  display: inline-block;
   position: relative;
 }
 
+#menu-icon{
+  border: none;
+  border-style: none;
+  outline:none;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  overflow: hidden;
+  outline: 0;
+  cursor:pointer;
+}
+
+.dropdown-content{
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a{
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  border-bottom: 1px solid lightgray;
+}
+
+.dropdown-content a:hover {
+  background-color: lightgray;
+}
+
+.show{display:block;}
+
+#landing{
+  height: 100vh;
+}
+
+#top_logos{
+  height: 21.6%;
+}
+#logo-container{
+  text-align: center;
+}
 #logo_top{
   display: block;
   margin: 0 auto;
-  padding: 5%;
+  padding: 1%;
+  height: 80%;
+  /*margin-left: 40%;*/
 }
 
-#logic_hero_icon{
+#creators{
+  height: 40%;
   position: absolute;
   left: 80%;
   margin: 0;
   top: 50%;
   transform: translate(0, -50%);
-  width: 10em; height: auto;
 }
 
-#big_photo img{
-  width: 100%;
-  margin: 0; padding: 0; border: 0;
+#big_photo{
+  display: table;
+  height: 78.4%;
+  background-image: url("../../img/natebri2.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
+
+#big_photo div{
+  display: table-cell;
+  width: 100%; height: 100%;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#big_photo span{
+  display: block;
+  text-align: center;
+  vertical-align: middle;
+  color: white;
+  font-size: 250%;
+}
+
 
 #description span{
   width: 100%;
@@ -65,7 +135,10 @@ section #logic_hero_table{
   width: 49%; height: 100%;
 }
 
-
+#logic_hero_description{
+  height: 100%;
+  display: inline-block;
+}
 #logic_hero_description h1, span{
   display: block;
   text-align: center;
@@ -74,13 +147,17 @@ section #logic_hero_table{
   margin: 0 15% 0 15%;
 }
 
+#logic_hero_TM_icon{
+  height: 50px;
+}
+
 #logic_hero_description h1{
   color: blue;
   font-size: 300%;
 }
 
 #logic_hero_description span{
-  font-size: 200%;
+  font-size: 150%;
 }
 
 #logic_hero_description div {
@@ -90,8 +167,8 @@ section #logic_hero_table{
 
 #logic_hero_description ul{
   display: block;
-  width: 80%;
-  margin: 0 12% 0 8%;
+  width: 86%;
+  margin: 0 10% 0 4%;
 }
 
 #logic_hero_description ul li{
@@ -122,7 +199,7 @@ section #logic_mapping_table{
 #logic_mapping_table td{
   display: inline-block;
   width: 49%; height: 100%;
-  color: #4995ff; /* cobalt blue */
+  color: #249ce0;
 }
 
 
@@ -255,7 +332,7 @@ meter {
 ); */
 }
 
-meter::-webkit-meter-bar {  
+meter::-webkit-meter-bar {
   background: none;
   background-color: whiteSmoke;
   box-shadow: 0 5px 5px -5px #333 inset;
@@ -265,7 +342,7 @@ meter::-webkit-meter-bar {
 
 /* ______________________________________ */
 #tfy_classroom {
-  background-color: #4995ff;
+  background-color: #249ce0;
   padding: 3% 0 3% 0;
 }
 
@@ -303,7 +380,7 @@ meter::-webkit-meter-bar {
   width: 100%;
   text-align: center;
   font-size: 400%;
-  color: #4995ff;
+  color: #249ce0;
   padding: 0; margin: 0;
 }
 
@@ -339,25 +416,34 @@ meter::-webkit-meter-bar {
   padding: 0 3% 0 3%;
 }
 
-#founder_photo{
+.founder_photo{
   width: 100%; height: auto;
 }
 
-td#founder_name{
+td.founder_name{
   color: black;
   padding-top: 1%;
   padding-bottom: 1%;
-  font-size: 180%;
+  font-size: 120%;
 }
 
 #team_table caption{
-  font-size: 400%;
+  font-size: 300%;
+  font-weight: bold;
+}
+
+.team_paragraph{
+  text-align: left;
 }
 
 /* __________________ contact us _________________ */
 #contact{
   background-color: black;
-  padding: 3% 0 3% 0;
+  padding: 2% 0 2% 0;
+}
+
+#contact_message_td{
+  height: 100%;
 }
 
 #contact h1, p, small{
@@ -366,18 +452,19 @@ td#founder_name{
 }
 
 #contact h1{
-  font-size: 400%;
+  font-size: 3em;
   margin: 0;
 }
 
 #contact p{
-  font-size: 300%;
+  font-size: 2em;
   padding: 3% 0 3% 0;
 }
 
 #tfy_footer_logo_wrapper{
   width: 100%;
 }
+
 #tfy_footer_logo{
   display: block; margin: 0 auto; /* center horiz. */
   width: 70%;
@@ -391,6 +478,10 @@ td#founder_name{
   padding: 2% 0 2% 0;
 }
 
+#contact_form_td{
+  height: 100%;
+}
+
 #contact form{
   display: inline-block;
   color: white;
@@ -401,29 +492,48 @@ td#founder_name{
   color: pink;
 }
 
-.contact_input{
-  width: 50%;
-  font-size: 18pt;
-  margin-top: 10px;
-}
-
 .contact_input_wrapper{
   padding: 1%;
 }
 
 .contact_input_wrapper label{
-  font-size: 14pt;
+  font-size: 1em;
 }
 
-textarea#email_body{
-  margin-top: 10px;
-  width: 100%;
+input, textarea{
+  border-radius: 5px;
+  outline: none;
+  border-style: none;
+  margin-top: 1px;
+}
+input{
+  width: 60%;
+  height: 1.4em;
+  font-size: 1.2em;
 }
 
-button#contact_button{
-  width: 7em;
+textarea{
+  width: 90%;
+}
+
+textarea#message{
+  height: 15em;
+  font-size: 1.2em;
+}
+
+#submit{
+  width: 6em;
   height: 2em;
   font-size: 1.2em;
   border-radius: .5em;
-  background-color: lightblue;
+  background-color: lightgray;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+#submit:hover{
+  background-color: maroon;
+  color: lightgray;
+  /*background-color: #249ce0;*/
 }
