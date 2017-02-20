@@ -46,9 +46,9 @@ jQuery(document).ready(function() {
                   var tableHTML = TFY.createTable(q_id, q_text, upvotes, downvotes);
                 }
 
-                else{ // no question to display
-                  var tableHTML = "<tbody><tr><td class='question'> Suggest a question! </td></tr></tbody>";
-                }
+                // else{ // no question to display
+                //   var tableHTML = "<tbody><tr><td class='question'> Suggest a question! </td></tr></tbody>";
+                // }
                 // rewrite current table's html
                 $("#"+question_category+"_"+i.toString()).html(tableHTML);
               } //end table-building loop
