@@ -49,6 +49,7 @@ def get_top_questions(table_height=HTML_INFO["table_height"]):
         for _ in range(table_height - n_found):
             top_qs[topic].append(None)
 
+    
     session.close()
     engine.dispose()
 

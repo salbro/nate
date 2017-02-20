@@ -156,9 +156,23 @@
     <!-- questions -->
     </tr>
     {% for i in range(html_info["table_height"]) %}
+      {% set valueInRow = [] %}
+      {% for category in top_question_table.keys() %}
+        {% if top_question_table[category][i] != None %}
+          {% if valueInRow.append(1) %}
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+      {% if not (valueInRow[0]) %}
+        {% break %}
+      {% endif %}
     <tr class="voting_table_questions_row">
       {% for category in top_question_table.keys() %}
-          <td "inner_category_table_container">
+      {% if not top_question_table[category][i] %}
+        <td class="inner_category_table_container" style="border-style: none;"></td>
+        {% continue %}
+      {% endif %}
+          <td>
             <table class="inner_category_table" id= {{ category + "_" + (i|string) }}>
               <tbody>
                 <tr>
@@ -187,7 +201,7 @@
                         {% set colors = ["green", "lightgreen"] if upvotes >= downvotes else ["red", "pink"] %}
                         {% set fade_factor = html_info["meter_fade"] %}
                         {% set perc_upvotes = 100*upvotes / (upvotes + downvotes) %}
-                        {% if perc_upvotes == 100 %}
+                        {% if perc_upvotes == 100 or perc_upvotes == 0 %}
                           {% set style_tag = "background-color: " + colors[0] + ";" %}
                         {% else %}
                           {% set lightly_colored_perc = perc_upvotes + fade_factor %}
@@ -212,8 +226,8 @@
             </table>
           </td>
       {% endfor %}
-    {% endfor %}
     </tr>
+    {% endfor %}
   </table>
 </section>
 

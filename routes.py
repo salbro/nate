@@ -13,6 +13,8 @@ from tfy_db_credentials import tfy_db_url
 
 app = Flask(__name__)
 app.secret_key = 'development key'
+app.jinja_env.add_extension('jinja2.ext.loopcontrols')
+
 
 ############## MAIL ####################
 mail = Mail()

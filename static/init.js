@@ -31,7 +31,7 @@ var TFY =
     var colors = (upvotes >= downvotes) ? ["green", "lightgreen"] : ["red", "pink"];
     var fade_factor = 10;
     perc_upvotes = parseFloat((100*(upvotes) / (upvotes + downvotes)).toPrecision(2));
-    if (perc_upvotes === 100.0){
+    if (perc_upvotes === 100.0 || perc_upvotes === 0.0){
       var style_tag = "background-color: " + colors[0] + ";";
     }
     else{
