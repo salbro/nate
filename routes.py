@@ -99,9 +99,15 @@ def contact():
         return redirect(url_for('hello'))
 
     if request.method == 'POST':
+        if flask_login.current_user.is_authenticated:
+            # top_question_table = utils.get_top_questions(SessionMaker)
+            top_question_table = utils.get_top_questions()
+            username = flask_login.current_user.name
+        else:
+            redirect(url_for('hello'))
+
         if form.validate() == False:
-            flash("Error with form!")
-            return render_template("contact.html", top_question_table=top_question_table, html_info = HTML_INFO, form=form)
+            return render_template("index.html", top_question_table=top_question_table, html_info = HTML_INFO, form=form, username = username)
 
         else:
           msg = Message(form.subject.data, sender='stephenpalbro@gmail.com', recipients=['nathan.otey@gmail.com','stephenpalbro@gmail.com'])
