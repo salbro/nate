@@ -5,7 +5,7 @@ import utils
 from flask_mail import Message, Mail
 from flask import Flask, url_for, request, render_template, redirect, jsonify, flash, session
 import flask_login
-from models import User, LoginForm, ContactForm, Question, Vote
+from models import *
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy import create_engine
 from tfy_db_credentials import tfy_db_url
@@ -49,7 +49,9 @@ def hello():
         # top_question_table = utils.get_top_questions(SessionMaker)
         top_question_table = utils.get_top_questions()
         username = flask_login.current_user.name
-        return render_template("index.html", top_question_table=top_question_table, html_info = HTML_INFO, form=ContactForm(), username = username)
+        return render_template("index.html", top_question_table=top_question_table,
+                html_info = HTML_INFO, form=ContactForm(), username = username,
+                suggestForm = SuggestQuestionForm())
     else:
         return redirect(url_for('login'))
 
@@ -107,7 +109,9 @@ def contact():
             redirect(url_for('hello'))
 
         if form.validate() == False:
-            return render_template("index.html", top_question_table=top_question_table, html_info = HTML_INFO, form=form, username = username)
+            return render_template("index.html", top_question_table=top_question_table,
+             html_info = HTML_INFO, form=form, username = username,
+             suggestForm=SuggestQuestionForm())
 
         else:
           msg = Message(form.subject.data, sender='stephenpalbro@gmail.com', recipients=['nathan.otey@gmail.com','stephenpalbro@gmail.com'])
@@ -119,6 +123,18 @@ def contact():
 
           return 'Form posted.'
 
+@app.route('/suggest_question/', methods=['GET','POST'])
+def suggest_question():
+    question = request.args.get("q_text")
+    username = flask_login.current_user.name if flask_login.current_user.is_authenticated else "anonymous user"
+    msg = Message(question, sender='stephenpalbro@gmail.com', recipients=['nathan.otey@gmail.com', 'stephenpalbro@gmail.com'])
+    msg.subject = "TFY Debate Suggestion from " + username
+    msg.body = """
+        %s suggests the following question: \n%s
+        """ % (username, question)
+    mail.send(msg)
+
+    return jsonify(None)
 
 
 @app.route('/_vote/', methods=['GET'])

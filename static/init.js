@@ -10,9 +10,29 @@ window.onclick = function(event) {
     }
   }
 }
+
 // GLOBAL TFY
 var TFY =
 {
+  submitQuestion: function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    // alert("inside submit");
+    var question = $("#suggest-question-input").val();
+    alert('thanks!');
+    $.getJSON($SCRIPT_ROOT + '/suggest_question',
+      {
+        q_text: question
+      },
+        /* the jsonified result */
+      function(data) {
+      });
+      $('#suggest-submit').off('click');
+      $('#suggest-submit').on('click', submitQuestion);
+      return false;
+  },
+
+
   createTable: function (q_id, q_text, upvotes, downvotes){
     q_id = q_id.toString()
     var tableHTML = "";
@@ -63,4 +83,9 @@ var TFY =
   dropdown: function(){
     document.getElementById("drop-down-menu").classList.toggle("show");
   }
+
 };
+
+jQuery(document).ready(function() {
+    $('#suggest-form').on('submit', TFY.submitQuestion)
+  });

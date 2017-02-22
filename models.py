@@ -109,7 +109,9 @@ class ContactForm(Form):
   message = TextAreaField("Message",  [validators.Required("Please enter a message.")])
   submit = SubmitField("Send")
 
-
+class SuggestQuestionForm(Form):
+  question = TextField("question",  [validators.Required("Please enter a question.")])
+  submit = SubmitField("Send")
 
 class Question(Base):
     __tablename__ = 'devquestions'

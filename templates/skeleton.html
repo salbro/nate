@@ -213,6 +213,25 @@
       {% endfor %}
     </tr>
     {% endfor %}
+    <tr id="suggest_a_question_row" class="voting_table_questions_row">
+      <td>
+        <!-- <form method='POST' action= {{url_for('suggest_question')}} > -->
+        <form id="suggest-form">
+          <div>
+            <!-- {{suggestForm.hidden_tag()}} -->
+            <label>{{suggestForm.question.label}}</label>
+            {% for message in suggestForm.question.errors %}
+              <div class="flash">{{ message }}</div>
+            {% endfor %}
+            <br>
+            {{suggestForm.question(id="suggest-question-input")}}
+          </div>
+          <div>
+            {{suggestForm.submit(id="suggest-submit")}}
+          </div>
+        </form>
+      </td>
+    </tr>
   </table>
 </section>
 
@@ -314,7 +333,7 @@
             {{form.message}}
           </div>
           <div class="contact_input_wrapper">
-            {{form.submit}}
+            {{form.submit(id="contact-submit")}}
           </div>
         </form>
       </td>
