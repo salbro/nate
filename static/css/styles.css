@@ -309,11 +309,35 @@ td .question{
   background-color: Transparent;
   background-repeat:no-repeat;
   border: none;
-  cursor:pointer;
+  cursor: pointer;
   overflow: hidden;
   outline:none;
 }
 
+.fa-thumbs-o-up{
+  color: green;
+}
+.fa-thumbs-o-down{
+  color: red;
+  background: red;
+}
+
+
+.vote_cell_thumbs_vote .text {
+position:relative;
+bottom:0px;
+left: 0px;
+visibility:hidden;
+color: black;
+padding: 0;
+margin: 0;
+background-color: #f1f1f1; /* really light gray */
+border: solid 1px lightgray;
+}
+
+.vote_cell_thumbs_vote:hover .text {
+visibility:visible;
+}
 
 .voting_meter_table{
   width: 100%;

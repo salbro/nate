@@ -25,7 +25,7 @@ var TFY =
           <table class='vote_cell_table'><tbody><tr> \
             <td class='vote_cell_thumbs_vote'>\
               <button id='q_" + q_id + "_upvote' href='#'' class='fa fa-thumbs-o-up fa-2x calculate'></button> \
-              <span id='q_" + q_id + "_upvotes' style='color:blue;'>" + upvotes + "</span> \
+              <span id='q_" + q_id + "_upvotes'>" + upvotes + "</span> \
             </td>\
             <td class='voting_meter_td'>";
     var colors = (upvotes >= downvotes) ? ["green", "lightgreen"] : ["red", "pink"];
@@ -52,7 +52,7 @@ var TFY =
     tableHTML += "\
       <td class='vote_cell_thumbs_vote'> \
         <button id='q_"+q_id+"_downvote' href='#' class='fa fa-thumbs-o-down fa-2x calculate'> </button> \
-        <span id='q_"+q_id+"_downvotes' style='color:blue;'>" + downvotes + "</span> \
+        <span id='q_"+q_id+"_downvotes'>" + downvotes + "</span> \
       </td> \
       </tr></tbody></table>"; // end of class vote_cell_table
 

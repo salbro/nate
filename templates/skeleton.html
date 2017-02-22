@@ -177,8 +177,9 @@
                     <table class="vote_cell_table"><tbody><tr>
                       {% if id != None %}
                       <td class="vote_cell_thumbs_vote">
+                        <p class="text">Yes!</p>
                         <button id = {{ "q_" + id + "_upvote" }}  href="#" class="fa fa-thumbs-o-up fa-2x calculate"></button>
-                        <span id= {{ "q_" + id + "_upvotes" }} style="color:blue;"> {{upvotes}} </span>
+                        <span id= {{ "q_" + id + "_upvotes" }} style="color:black;"> {{upvotes}} </span>
                       </td>
                       <td class="voting_meter_td">
                         {% set colors = ["green", "lightgreen"] if upvotes >= downvotes else ["red", "pink"] %}
@@ -198,8 +199,9 @@
                         </meter>
                       </td>
                       <td class="vote_cell_thumbs_vote">
+                        <p class="text">No!</p>
                         <button id = {{ "q_" + id + "_downvote" }}  href="#" class="fa fa-thumbs-o-down fa-2x calculate"> </button>
-                        <span id= {{ "q_" + id + "_downvotes" }} style="color:blue;"> {{downvotes}} </span>
+                        <span id= {{ "q_" + id + "_downvotes" }} style="color:black;"> {{downvotes}} </span>
                       </td>
                     {% endif %}
                     </tr></tbody></table>

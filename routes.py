@@ -131,6 +131,7 @@ def _vote():
     question_id = request.args.get("question_id")
     direction = request.args.get("vote_direction")
 
+    print(request.args.get("votes_above"))
     votes_above = None if request.args.get("votes_above") == '' else int(request.args.get("votes_above"))
     votes_below = None if request.args.get("votes_below") == '' else int(request.args.get("votes_below"))
 
