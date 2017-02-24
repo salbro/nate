@@ -213,26 +213,25 @@
       {% endfor %}
     </tr>
     {% endfor %}
-    <tr id="suggest_a_question_row" class="voting_table_questions_row">
-      <td>
-        <!-- <form method='POST' action= {{url_for('suggest_question')}} > -->
-        <form id="suggest-form">
-          <div>
-            <!-- {{suggestForm.hidden_tag()}} -->
-            <label>{{suggestForm.question.label}}</label>
-            {% for message in suggestForm.question.errors %}
-              <div class="flash">{{ message }}</div>
-            {% endfor %}
-            <br>
-            {{suggestForm.question(id="suggest-question-input")}}
-          </div>
-          <div>
-            {{suggestForm.submit(id="suggest-submit")}}
-          </div>
-        </form>
-      </td>
-    </tr>
   </table>
+  <div id="suggest-question">
+      <form id="suggest-question-form">
+        <!-- <div class="suggest-question-label">
+          <label>{{suggestForm.question.label}}</label>
+          <br>
+        </div> -->
+        {% for message in suggestForm.question.errors %}
+        <div class="flash">{{ message }}</div>
+        <br>
+        {% endfor %}
+        <div id="suggestion-question-input-div" class="suggest-question-row">
+          {{suggestForm.question(id="suggest-question-input")}}
+        </div>
+        <div id="suggest-question-submit-div" class="suggest-question-row">
+          {{suggestForm.submit(id="suggest-submit")}}
+        </div>
+      </form>
+    </div>
 </section>
 
 <section id="tfy_classroom">

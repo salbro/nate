@@ -110,8 +110,8 @@ class ContactForm(Form):
   submit = SubmitField("Send")
 
 class SuggestQuestionForm(Form):
-  question = TextField("question",  [validators.Required("Please enter a question.")])
-  submit = SubmitField("Send")
+  question = TextField("question",[validators.Required("Please enter a question.")], render_kw={"placeholder": "Suggest a question!"})
+  submit = SubmitField("Submit")
 
 class Question(Base):
     __tablename__ = 'devquestions'

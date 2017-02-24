@@ -252,7 +252,7 @@ section #logic_mapping_table{
   padding: 1%;
 }
 
-td #inner_category_table_container{
+td .inner_category_table_container{
   width: 24%;
 }
 
@@ -345,10 +345,9 @@ visibility:visible;
 }
 
 meter {
-  /*-webkit-appearance: none; /* Reset appearance */*/
+  /*-webkit-appearance: none; /* Reset appearance */
   border: 1px solid #ccc;
   border-radius: 3px;
-
   /*background-image: linear-gradient(
   90deg,
   green 70%,
@@ -363,6 +362,44 @@ meter::-webkit-meter-bar {
   box-shadow: 0 5px 5px -5px #333 inset;
 }
 
+#suggest-question {
+  width: 96%;
+  margin: 2%;
+  display: table;
+}
+
+#suggest-question form{
+  display: table-cell;
+  text-align: center;
+}
+
+.suggest-question-row{
+  display: inline-block;
+}
+
+#suggest-question-input{
+  border: solid 1px black;
+  width: 100%;
+}
+
+#suggestion-question-input-div{
+  margin-left: 5%;
+  width: 70%;
+}
+#suggest-question-submit-div{
+  width: 10%;
+  padding-left: 1px;
+}
+
+#suggest-submit{
+  width: 100%;
+  cursor: pointer;
+}
+
+#suggest-submit:hover{
+  background-color: maroon;
+  color: white;
+}
 
 
 /* ______________________________________ */
